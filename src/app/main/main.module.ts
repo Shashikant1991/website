@@ -1,18 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { MainRoutingModule } from './main-routing.module';
+import { BodyComponent } from './body/body.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    BodyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    AppRoutingModule
+    MainRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [BodyComponent]
 })
-export class AppModule { }
+export class MainModule { }

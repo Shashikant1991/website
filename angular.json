@@ -10,7 +10,22 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "styleext": "scss",
+          "changeDetection": "OnPush",
+          "flat": false,
+          "spec": false
+        },
+        "@schematics/angular:pipe": {
+          "flat": false,
+          "spec": false
+        },
+        "@schematics/angular:directive": {
+          "flat": false,
+          "spec": false
+        },
+        "@schematics/angular:service": {
+          "flat": false,
+          "spec": false
         }
       },
       "architect": {
@@ -27,7 +42,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/app/app.scss"
             ],
             "scripts": []
           },
@@ -83,7 +98,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.scss"
+              "src/app/app.scss"
             ],
             "scripts": [],
             "assets": [
