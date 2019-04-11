@@ -1,0 +1,4 @@
+<a *ngFor="let item of menu"
+   [attr.href]="item.url | async" ]>
+  <span class="txt">{{item.title | async}}</span>
+</a>
