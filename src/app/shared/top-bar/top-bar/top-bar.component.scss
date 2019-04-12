@@ -1,12 +1,33 @@
 @import "../config";
 
 :host {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    // height: $top-bar-height;
+    .top-bar {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
 
-    border-bottom: 1px solid gray;
+        border-bottom: 1px solid gray;
+    }
+
+    .brand {
+        margin-left: map-get($spacers, 5);
+        .prefix {
+            font-weight: bold;
+        }
+    }
+
+    .menu {
+        display: flex;
+        margin-left: auto;
+        margin-right: map-get($spacers, 5);
+
+        a {
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: map-get($spacers, 3);
+            margin-right: map-get($spacers, 3);
+        }
+    }
 }

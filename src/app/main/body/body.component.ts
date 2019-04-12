@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_
 import {WINDOW} from '@ng-toolkit/universal';
 import {Emittable, Emitter} from '@ngxs-labs/emitter';
 import {fromEvent, Subject} from 'rxjs';
+import {filter} from 'rxjs/internal/operators/filter';
 import {map, startWith, takeUntil} from 'rxjs/operators';
 import {AppState} from '../../states/app/app.state';
 
@@ -32,6 +33,7 @@ export class BodyComponent implements OnInit, OnDestroy {
             fromEvent(this._wnd, 'scroll').pipe(
                 startWith(this._wnd.scrollY),
                 map(() => this._wnd.scrollY),
+                filter(value => value <= AppState.TOP_BAR_MAX_HEIGHT),
                 takeUntil(this._destroyed$)
             ).subscribe(scroll => this.scroll.emit(scroll));
         }

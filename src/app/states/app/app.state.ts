@@ -11,6 +11,10 @@ type AppContext = StateContext<AppModel>;
     }
 })
 export class AppState {
+    public static TOP_BAR_MAX_HEIGHT = 135;
+
+    public static TOP_BAR_MIN_HEIGHT = 60;
+
     @Selector()
     public static scroll(state: AppModel) {
         return state.scroll;
@@ -22,7 +26,14 @@ export class AppState {
     }
 
     @Selector()
+    public static topBarBrand(state: AppModel) {
+        const MAX_HEIGHT = AppState.TOP_BAR_MAX_HEIGHT - AppState.TOP_BAR_MIN_HEIGHT;
+        const percent = Math.max(0, MAX_HEIGHT - state.scroll) / MAX_HEIGHT;
+        return 25 + (25 * percent);
+    }
+
+    @Selector()
     public static topBarHeight(state: AppModel) {
-        return Math.max(60, 135 - state.scroll);
+        return Math.max(AppState.TOP_BAR_MIN_HEIGHT, AppState.TOP_BAR_MAX_HEIGHT - state.scroll);
     }
 }

@@ -1,5 +1,13 @@
-<!--
-<ws-brand></ws-brand>
--->
-<span class="ml-auto">"{{scroll$ | async}}"</span>
-<ws-top-menu class="ml-auto mr-5"></ws-top-menu>
+<div class="top-bar"
+     [style.line-height.px]="topBarHeight$  | async">
+    <div class="brand"
+         [style.font-size.px]="topBarBrand$  | async">
+        <span class="prefix">React</span><span class="tail">gular</span>
+    </div>
+    <div class="menu">
+        <a *ngFor="let item of menu"
+           [attr.href]="item.url | async">
+            <span class="txt">{{item.title | async}}</span>
+        </a>
+    </div>
+</div>
