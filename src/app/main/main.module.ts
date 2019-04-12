@@ -11,20 +11,20 @@ import {MainRoutingModule} from './main-routing.module';
 import {OutletHomeComponent} from './outlet-home/outlet-home.component';
 
 @NgModule({
-  imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
-    MainRoutingModule,
-    TopBarModule,
-    BannerModule,
-    ContactModule,
-    HistoryModule,
-    SkillsModule
-  ],
-  declarations: [
-    BodyComponent,
-    OutletHomeComponent
-  ],
-  bootstrap: [BodyComponent]
+    imports: [
+        BrowserModule.withServerTransition({appId: 'serverApp'}),
+        MainRoutingModule,
+        TopBarModule,
+        BannerModule,
+        ContactModule,
+        HistoryModule,
+        SkillsModule
+    ],
+    declarations: [
+        BodyComponent,
+        OutletHomeComponent
+    ],
+    bootstrap: [BodyComponent]
 })
 export class MainModule {
 }

@@ -6,12 +6,12 @@ import {BodyComponent} from './body/body.component';
 import {MainModule} from './main.module';
 
 @NgModule({
-  imports: [
-    MainModule,
-    ServerModule,
-    ModuleMapLoaderModule,
-  ],
-  bootstrap: [BodyComponent],
+    imports: [
+        MainModule,
+        ServerModule,
+        ModuleMapLoaderModule,
+    ],
+    bootstrap: [BodyComponent],
 })
 export class MainServerModule {
 }

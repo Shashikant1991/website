@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
-  selector: 'ws-intro',
-  templateUrl: './intro.component.html',
-  styleUrls: ['./intro.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ws-intro',
+    templateUrl: './intro.component.html',
+    styleUrls: ['./intro.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IntroComponent {
 }

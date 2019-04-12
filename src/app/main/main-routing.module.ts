@@ -3,18 +3,18 @@ import {RouterModule, Routes} from '@angular/router';
 import {OutletHomeComponent} from './outlet-home/outlet-home.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: OutletHomeComponent
-  }
+    {
+        path: '',
+        component: OutletHomeComponent
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    anchorScrolling: 'enabled'
-  })],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes, {
+        // scrollPositionRestoration: 'enabled',
+        // anchorScrolling: 'enabled'
+    })],
+    exports: [RouterModule]
 })
 export class MainRoutingModule {
 }
