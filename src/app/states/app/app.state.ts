@@ -33,6 +33,12 @@ export class AppState {
     }
 
     @Selector()
+    public static topBarDocked(state: AppModel) {
+        const height = Math.max(AppState.TOP_BAR_MIN_HEIGHT, AppState.TOP_BAR_MAX_HEIGHT - state.scroll);
+        return height === AppState.TOP_BAR_MIN_HEIGHT;
+    }
+
+    @Selector()
     public static topBarHeight(state: AppModel) {
         return Math.max(AppState.TOP_BAR_MIN_HEIGHT, AppState.TOP_BAR_MAX_HEIGHT - state.scroll);
     }

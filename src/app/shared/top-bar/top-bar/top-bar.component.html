@@ -1,13 +1,20 @@
 <div class="top-bar"
+     [class.docked]="topBarDocked$ | async"
      [style.line-height.px]="topBarHeight$  | async">
-    <div class="brand"
-         [style.font-size.px]="topBarBrand$  | async">
+    <a class="brand"
+       [routerLink]="['/']"
+       [fragment]=""
+       [style.font-size.px]="topBarBrand$  | async">
         <span class="prefix">React</span><span class="tail">gular</span>
-    </div>
+    </a>
     <div class="menu">
         <a *ngFor="let item of menu"
-           [attr.href]="item.url | async">
-            <span class="txt">{{item.title | async}}</span>
+           [routerLink]="item.route"
+           [fragment]="item.fragment"
+           routerLinkActive=""
+           #rla="routerLinkActive"
+           [class.active]="(fragment$ | async) === item.fragment && rla.isActive">
+            <span class="txt">{{item.title}}</span>
         </a>
     </div>
 </div>

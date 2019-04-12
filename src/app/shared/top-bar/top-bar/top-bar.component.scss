@@ -8,11 +8,32 @@
         left: 0;
         right: 0;
 
-        border-bottom: 1px solid gray;
+        transition: background-color 300ms ease-in-out,
+        box-shadow 300ms ease-in-out,
+        color 300ms ease-in-out;
+
+        a {
+            color: $white;
+            transition: color 300ms ease-in-out;
+        }
+
+        &.docked {
+            background-color: $white;
+            box-shadow: 0 1px 3px $gray-200;
+
+            a {
+                color: $gray-800;
+
+                &.active {
+                    color: $gray-600;
+                }
+            }
+        }
     }
 
     .brand {
         margin-left: map-get($spacers, 5);
+
         .prefix {
             font-weight: bold;
         }
@@ -28,6 +49,10 @@
             font-weight: bold;
             margin-left: map-get($spacers, 3);
             margin-right: map-get($spacers, 3);
+
+            &.active {
+                color: $white-800;
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
 import {Select} from '@ngxs/store';
-import {Observable, of} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 import {AppState} from '../../../states/app/app.state';
 import {TopBarMenu} from '../top-bar.types';
 
@@ -10,21 +12,43 @@ import {TopBarMenu} from '../top-bar.types';
     styleUrls: ['./top-bar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TopBarComponent implements OnInit {
+export class TopBarComponent implements OnInit, OnDestroy {
+    public fragment$: Observable<string>;
+
     public menu: TopBarMenu[];
 
     @Select(AppState.topBarBrand)
     public topBarBrand$: Observable<number>;
 
+    @Select(AppState.topBarDocked)
+    public topBarDocked$: Observable<boolean>;
+
     @Select(AppState.topBarHeight)
     public topBarHeight$: Observable<number>;
 
+    private readonly _destroyed$: Subject<void> = new Subject();
+
+    public constructor(private _router: Router) {
+
+    }
+
+    public ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
+    }
+
     public ngOnInit(): void {
         this.menu = [
-            {title: of('Intro'), active: of(false), url: of('#intro')},
-            {title: of('Skills'), active: of(false), url: of('#skills')},
-            {title: of('Experience'), active: of(false), url: of('#experience')},
-            {title: of('Hire me'), active: of(false), url: of('#contact')}
+            {title: 'Intro', route: ['/'], fragment: 'intro'},
+            {title: 'Skills', route: ['/'], fragment: 'skills'},
+            {title: 'Experience', route: ['/'], fragment: 'experience'},
+            {title: 'Hire me', route: ['/'], fragment: 'contact'}
         ];
+
+        this.fragment$ = this._router.events.pipe(
+            filter(event => event instanceof NavigationEnd),
+            map((event: NavigationEnd) => event.url.match(/#(.*)/)),
+            map((match: RegExpMatchArray) => match ? match[1] : '')
+        );
     }
 }
