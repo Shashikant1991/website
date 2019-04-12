@@ -5,6 +5,6 @@
         "baseUrl": "."
     },
     "angularCompilerOptions": {
-        "entryModule": "app/app.server.module#AppServerModule"
+        "entryModule": "app/main/main-server.module#MainServerModule"
     }
 }

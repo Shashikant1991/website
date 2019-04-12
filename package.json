@@ -11,7 +11,8 @@
         "compile:server": "webpack --config webpack.server.config.js --progress --colors",
         "serve:ssr": "node dist/server",
         "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
-        "build:client-and-server-bundles": "ng build --prod && ng run website:server:production"
+        "build:client-and-server-bundles": "ng build --prod && ng run website:server:production",
+        "start:ssr": "npm run build:ssr && npm run serve:ssr"
     },
     "private": true,
     "dependencies": {
@@ -25,8 +26,12 @@
         "@angular/platform-browser-dynamic": "~7.2.0",
         "@angular/platform-server": "~7.2.0",
         "@angular/router": "~7.2.0",
+        "@ng-toolkit/universal": "^7.1.1",
         "@nguniversal/express-engine": "^7.1.1",
         "@nguniversal/module-map-ngfactory-loader": "0.0.0",
+        "@ngxs-labs/emitter": "^1.9.0",
+        "@ngxs/devtools-plugin": "^3.4.3",
+        "@ngxs/store": "^3.4.3",
         "bootstrap": "^4.3.1",
         "core-js": "^2.5.4",
         "express": "^4.15.2",

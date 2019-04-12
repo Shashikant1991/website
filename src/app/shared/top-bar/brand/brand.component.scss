@@ -2,4 +2,8 @@
 
 :host {
     display: flex;
+    font-size: 2rem;
+    .prefix {
+        font-weight: bold;
+    }
 }
