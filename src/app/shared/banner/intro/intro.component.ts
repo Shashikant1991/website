@@ -16,16 +16,18 @@ export class IntroComponent implements OnInit {
 
     public ngOnInit(): void {
         this.buffer$ = start().pipe(
-            Keyboard.type('One Two Three'),
-            Keyboard.home(),
-            Keyboard.end()
-            // Keyboard.type('Hello, I\'m Nick Foscarini a Full Stack developer in Markham, Ontario.'),
-            // Keyboard.left(10),
-            // Keyboard.backSpace(7),
-            // Keyboard.type('Toronto')
-            // Keyboards.type('I have 10 years of JavaScript programming with 8 years as an Angular developer.\r'),
-            // Keyboards.type('Seeking a new role as a front-end developer with a focus on good product design, animated UX ' +
-            //     'experiences and modern technology.')
+            Keyboard.type('Hello, I\'m Nick Foscarini a Full Stack developer in Markham, Ontario.'),
+            Keyboard.left(10),
+            Keyboard.backSpace(7),
+            Keyboard.type('Toronto'),
+            Keyboard.end(),
+            Keyboard.pause(),
+            Keyboard.newLine(),
+            Keyboard.type('I have 10 years of JavaScript programming with 8 years as an Angular developer.'),
+            Keyboard.pause(),
+            Keyboard.newLine(),
+            Keyboard.type('Seeking a new role as a front-end developer with a focus on good product design, animated UX ' +
+                'experiences and modern technology.')
         );
     }
 }

@@ -43,4 +43,8 @@ export namespace EngineEvents {
     export function isBackspaceEvent(value: any): value is BackspaceEvent {
         return typeof value === 'object' && 'type' in value && value['type'] === 'backspace';
     }
+
+    export function isPauseEvent(value: any): value is DelayEvent {
+        return typeof value === 'object' && 'type' in value && value['type'] === 'pause';
+    }
 }

@@ -4,6 +4,7 @@ import {EngineEvents} from './engine.events';
 import {BackspaceReducer} from './reducers/backspace.reducer';
 import {CursorMoveReducer} from './reducers/cursor-move.reducer';
 import {KeyPressReducer} from './reducers/key-press.reducer';
+import {PauseReducer} from './reducers/pause.reducer';
 
 export namespace Keyboard {
     export type BufferOperator = OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent>;
@@ -15,6 +16,9 @@ export namespace Keyboard {
         return _reduceBuffer(() => characters.split('').map(value => ({type: 'key', value})));
     }
 
+    /**
+     * Types a new line.
+     */
     export function newLine(count: number = 1): BufferOperator {
         return type('\r'.repeat(count));
     }
@@ -53,6 +57,13 @@ export namespace Keyboard {
     export function backSpace(count: number = 1): BufferOperator {
         return _reduceBuffer(() => Array(count).fill(null).map(() => ({type: 'backspace'})));
     }
+
+    /**
+     * Adds a delay to the buffer stream.
+     */
+    export function pause(ms: number = 2000): BufferOperator {
+        return _reduceBuffer(() => [{type: 'pause', delay: ms}]);
+    }
 }
 
 function _reduceBuffer(events: () => EngineEvents.DelayEvent[]) {
@@ -66,10 +77,8 @@ function _reduceBuffer(events: () => EngineEvents.DelayEvent[]) {
  * Applies a delay to the stream of changes to make it look like someone is typing.
  */
 function _delayEvents(): OperatorFunction<EngineEvents.DelayEvent, EngineEvents.DelayEvent> {
-    // const SPEED = 100;
-    // const BASE_SPEED = 20;
-    const SPEED = 1;
-    const BASE_SPEED = 10;
+    const SPEED = 25;
+    const BASE_SPEED = 5;
     return function (source: Observable<EngineEvents.DelayEvent>): Observable<EngineEvents.DelayEvent> {
         return source.pipe(
             map(s => {
@@ -101,6 +110,8 @@ function _reduce(events: Observable<EngineEvents.EventType>): OperatorFunction<E
                     return CursorMoveReducer(acc, value);
                 } else if (EngineEvents.isBackspaceEvent(value)) {
                     return BackspaceReducer(acc, value);
+                } else if (EngineEvents.isPauseEvent(value)) {
+                    return PauseReducer(acc);
                 }
                 throw new Error('unexpected value in buffer stream');
             })

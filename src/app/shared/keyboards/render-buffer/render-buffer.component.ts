@@ -13,7 +13,6 @@ export class RenderBufferComponent {
     public buffer: EngineEvents.BufferEvent;
 
     public toHtml(indx: number): string {
-        // @todo move to the render package
         const text = this.buffer.text[indx].slice();
         if (indx === this.buffer.row) {
             text.splice(this.buffer.column, 0, '<span class="cursor"></span>');

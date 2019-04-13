@@ -8,7 +8,7 @@ export function NewLineReducer(source: EngineEvents.BufferEvent): EngineEvents.B
     b.text = b.text.slice();
     b.column = 0;
     b.row++;
-    if (b.row > b.text.length) {
+    if (b.row > b.text.length - 1) {
         b.text.push([]);
     }
     return b;
