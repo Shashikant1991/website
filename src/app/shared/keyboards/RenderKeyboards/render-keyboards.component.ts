@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
-import {Keyboards} from '../keyboards.types';
+import {BufferEvent} from '../Engine/engine.events';
 
 @Component({
     selector: 'ws-render-keyboards',
@@ -10,9 +10,10 @@ import {Keyboards} from '../keyboards.types';
 })
 export class RenderKeyboardsComponent {
     @Input()
-    public buffer: Keyboards.BufferEvent;
+    public buffer: BufferEvent;
 
     public toHtml(indx: number): string {
+        // @todo move to the render package
         const text = this.buffer.text[indx].slice();
         if (indx === this.buffer.row) {
             text.splice(this.buffer.column, 0, '<span class="cursor"></span>');
