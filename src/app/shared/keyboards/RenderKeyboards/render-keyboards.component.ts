@@ -10,7 +10,7 @@ import {Keyboards} from '../keyboards.types';
 })
 export class RenderKeyboardsComponent {
     @Input()
-    public buffer: Keyboards.Buffer;
+    public buffer: Keyboards.BufferEvent;
 
     public toHtml(indx: number): string {
         const text = this.buffer.text[indx].slice();
