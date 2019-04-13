@@ -1,5 +1,5 @@
 import {concat, Observable, of, OperatorFunction} from 'rxjs';
-import {concatAll, delay, last, map, scan} from 'rxjs/operators';
+import {concatAll, delay, map, scan} from 'rxjs/operators';
 
 export namespace Keyboards {
     /**
@@ -12,6 +12,16 @@ export namespace Keyboards {
     }
 
     /**
+     * Type checks if a value is a buffer object.
+     */
+    export function isBuffer(value: any): value is Buffer {
+        return typeof value === 'object'
+            && 'column' in value
+            && 'row' in value
+            && 'text' in value;
+    }
+
+    /**
      * Creates a new empty buffer.
      */
     export function start(): Observable<Buffer> {
@@ -21,8 +31,8 @@ export namespace Keyboards {
     /**
      * Applies a delay to the stream of changes to make it look like someone is typing.
      */
-    function delayStrokes(): OperatorFunction<Buffer, Buffer> {
-        return function (source: Observable<Buffer>): Observable<Buffer> {
+    function delayStrokes<T>(): OperatorFunction<T, T> {
+        return function (source: Observable<T>): Observable<T> {
             return source.pipe(
                 map(s => {
                     const r = Math.floor(Math.random() * Math.floor(100));
@@ -53,13 +63,14 @@ export namespace Keyboards {
      */
     export function type(characters: string): OperatorFunction<Buffer, Buffer> {
         return function (source: Observable<Buffer>): Observable<Buffer> {
-            const strokes$ = concat(
-                source.pipe(last()),
-                of(...characters.split(''))
+            return concat(
+                source,
+                of(...characters.split('')).pipe(delayStrokes())
             ).pipe(
-                scan<string, Buffer>((acc, value) => insert(acc, value))
+                scan<string, Buffer>((acc, value) => {
+                    return isBuffer(value) ? value : insert(acc, value);
+                })
             );
-            return concat(source, strokes$.pipe(delayStrokes()));
         };
     }
 }
