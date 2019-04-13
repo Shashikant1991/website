@@ -1,9 +1,9 @@
 export namespace EngineEvents {
-    export interface KeyboardEvent {
+    export interface EventType {
         type: string;
     }
 
-    export interface BufferEvent extends KeyboardEvent {
+    export interface BufferEvent extends EventType {
         column: number;
         row: number;
         text: string[][];
@@ -13,20 +13,24 @@ export namespace EngineEvents {
         return typeof value === 'object' && 'type' in value && value['type'] === 'buffer';
     }
 
-    export interface KeyEvent extends KeyboardEvent {
+    export interface DelayEvent extends EventType {
+        delay?: number;
+    }
+
+    export interface KeyPressEvent extends DelayEvent {
         value: string;
     }
 
-    export function isKeyEvent(value: any): value is KeyEvent {
+    export function isKeyPressEvent(value: any): value is KeyPressEvent {
         return typeof value === 'object' && 'type' in value && value['type'] === 'key';
     }
 
-    export interface CursorEvent extends KeyboardEvent {
-        column: number;
-        row: number;
+    export interface CursorMoveEvent extends DelayEvent {
+        column?: number;
+        row?: number;
     }
 
-    export function isCursorEvent(value: any): value is CursorEvent {
+    export function isCursorEvent(value: any): value is CursorMoveEvent {
         return typeof value === 'object' && 'type' in value && value['type'] === 'cursor';
     }
 }

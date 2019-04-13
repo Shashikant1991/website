@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {BufferEvent} from '../../keyboards/Engine/engine.events';
-import {start} from '../../keyboards/Engine/engine.observables';
-import {backSpace, left, type} from '../../keyboards/Engine/engine.operators';
+import {BufferEvent} from '../../keyboards/engine/engine.events';
+import {start} from '../../keyboards/engine/engine.observables';
+import {backSpace, left, type} from '../../keyboards/engine/engine.operators';
 
 @Component({
     selector: 'ws-intro',

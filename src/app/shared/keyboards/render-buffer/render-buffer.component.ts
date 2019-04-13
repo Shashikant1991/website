@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
-import {BufferEvent} from '../Engine/engine.events';
+import {EngineEvents} from '../engine/engine.events';
 
 @Component({
-    selector: 'ws-render-keyboards',
-    templateUrl: './render-keyboards.component.html',
-    styleUrls: ['./render-keyboards.component.scss'],
+    selector: 'ws-render-buffer',
+    templateUrl: './render-buffer.component.html',
+    styleUrls: ['./render-buffer.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RenderKeyboardsComponent {
+export class RenderBufferComponent {
     @Input()
-    public buffer: BufferEvent;
+    public buffer: EngineEvents.BufferEvent;
 
     public toHtml(indx: number): string {
         // @todo move to the render package

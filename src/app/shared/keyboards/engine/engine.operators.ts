@@ -1,14 +1,15 @@
 import {concat, Observable, of, OperatorFunction} from 'rxjs';
 import {concatAll, delay, map, scan} from 'rxjs/operators';
 import {EngineEvents} from './engine.events';
-import {reduceCursorEvent, reduceKeyEvent} from './engine.reducers';
+import {CursorMoveReducer} from './reducers/cursor-move.reducer';
+import {KeyPressReducer} from './reducers/key-press.reducer';
 
 /**
  * Types a sequence of characters and moves the cursor forward.
  */
 export function type(characters: string): OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent> {
     return function (source: Observable<EngineEvents.BufferEvent>): Observable<EngineEvents.BufferEvent> {
-        const keys = characters.split('').map(value => ({type: 'key', value} as EngineEvents.KeyEvent));
+        const keys = characters.split('').map(value => ({type: 'key', value} as EngineEvents.KeyPressEvent));
         return source.pipe(_reduce(of(...keys).pipe(_delayReducers())));
     };
 }
@@ -49,7 +50,7 @@ function _delayReducers<T>(): OperatorFunction<T, T> {
 /**
  * Appends a stream of keyboard events to the end of a buffer stream.
  */
-function _reduce(events: Observable<EngineEvents.KeyboardEvent>): OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent> {
+function _reduce(events: Observable<EngineEvents.EventType>): OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent> {
     return function (source: Observable<EngineEvents.BufferEvent>): Observable<EngineEvents.BufferEvent> {
         return concat(
             source,
@@ -58,10 +59,10 @@ function _reduce(events: Observable<EngineEvents.KeyboardEvent>): OperatorFuncti
             scan<KeyboardEvent, EngineEvents.BufferEvent>((acc, value) => {
                 if (EngineEvents.isBufferEvent(value)) {
                     return value;
-                } else if (EngineEvents.isKeyEvent(value)) {
-                    return reduceKeyEvent(acc, value);
+                } else if (EngineEvents.isKeyPressEvent(value)) {
+                    return KeyPressReducer(acc, value);
                 } else if (EngineEvents.isCursorEvent(value)) {
-                    return reduceCursorEvent(acc, value);
+                    return CursorMoveReducer(acc, value);
                 }
                 throw new Error('unexpected value in buffer stream');
             })

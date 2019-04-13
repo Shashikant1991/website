@@ -1,16 +1,16 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {RenderKeyboardsComponent} from './RenderKeyboards/render-keyboards.component';
+import {RenderBufferComponent} from './render-buffer/render-buffer.component';
 
 @NgModule({
     imports: [
         CommonModule
     ],
     declarations: [
-        RenderKeyboardsComponent
+        RenderBufferComponent
     ],
     exports: [
-        RenderKeyboardsComponent
+        RenderBufferComponent
     ]
 })
 export class KeyboardsModule {
