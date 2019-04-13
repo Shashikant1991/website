@@ -1,0 +1,22 @@
+@import "../config";
+
+ws-render-keyboards {
+    display: flex;
+    flex-direction: column;
+
+    .blink {
+    }
+
+    @keyframes blink-animation {
+        to {
+            visibility: hidden;
+        }
+    }
+    .cursor {
+        display: inline-block;
+        background-color: $gray-800;
+        width: 2px;
+        height: 1.25rem;
+        animation: blink-animation 800ms steps(5, start) infinite;
+    }
+}
