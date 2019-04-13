@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {BufferEvent} from '../../keyboards/engine/engine.events';
+import {EngineEvents} from '../../keyboards/engine/engine.events';
 import {start} from '../../keyboards/engine/engine.observables';
-import {backSpace, left, type} from '../../keyboards/engine/engine.operators';
+import {Keyboard} from '../../keyboards/engine/engine.operators';
 
 @Component({
     selector: 'ws-intro',
@@ -12,14 +12,17 @@ import {backSpace, left, type} from '../../keyboards/engine/engine.operators';
 })
 export class IntroComponent implements OnInit {
 
-    public buffer$: Observable<BufferEvent>;
+    public buffer$: Observable<EngineEvents.BufferEvent>;
 
     public ngOnInit(): void {
         this.buffer$ = start().pipe(
-            type('Hello, I\'m Nick Foscarini a Full Stack developer in Markham, Ontario.'),
-            left(10),
-            backSpace(7),
-            type('Toronto')
+            Keyboard.type('One Two Three'),
+            Keyboard.home(),
+            Keyboard.end()
+            // Keyboard.type('Hello, I\'m Nick Foscarini a Full Stack developer in Markham, Ontario.'),
+            // Keyboard.left(10),
+            // Keyboard.backSpace(7),
+            // Keyboard.type('Toronto')
             // Keyboards.type('I have 10 years of JavaScript programming with 8 years as an Angular developer.\r'),
             // Keyboards.type('Seeking a new role as a front-end developer with a focus on good product design, animated UX ' +
             //     'experiences and modern technology.')

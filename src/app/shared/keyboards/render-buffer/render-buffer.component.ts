@@ -18,7 +18,8 @@ export class RenderBufferComponent {
         if (indx === this.buffer.row) {
             text.splice(this.buffer.column, 0, '<span class="cursor"></span>');
         }
-        return text.join('');
+        const html = text.join('');
+        return html === '' ? '&nbsp;' : html;
     }
 
     public trackByLine = (indx) => this.toHtml(indx);

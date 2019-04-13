@@ -1,46 +1,82 @@
 import {concat, Observable, of, OperatorFunction} from 'rxjs';
 import {concatAll, delay, map, scan} from 'rxjs/operators';
 import {EngineEvents} from './engine.events';
+import {BackspaceReducer} from './reducers/backspace.reducer';
 import {CursorMoveReducer} from './reducers/cursor-move.reducer';
 import {KeyPressReducer} from './reducers/key-press.reducer';
 
-/**
- * Types a sequence of characters and moves the cursor forward.
- */
-export function type(characters: string): OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent> {
-    return function (source: Observable<EngineEvents.BufferEvent>): Observable<EngineEvents.BufferEvent> {
-        const keys = characters.split('').map(value => ({type: 'key', value} as EngineEvents.KeyPressEvent));
-        return source.pipe(_reduce(of(...keys).pipe(_delayReducers())));
-    };
+export namespace Keyboard {
+    export type BufferOperator = OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent>;
+
+    /**
+     * Types a sequence of characters and moves the cursor forward.
+     */
+    export function type(characters: string): BufferOperator {
+        return _reduceBuffer(() => characters.split('').map(value => ({type: 'key', value})));
+    }
+
+    export function newLine(count: number = 1): BufferOperator {
+        return type('\r'.repeat(count));
+    }
+
+    /**
+     * Moves the cursor to the left.
+     */
+    export function left(count: number = 1): BufferOperator {
+        return _reduceBuffer(() => Array(count).fill(null).map(() => ({type: 'cursor', direction: 'left'})));
+    }
+
+    /**
+     * Moves the cursor to the right.
+     */
+    export function right(count: number = 1): BufferOperator {
+        return _reduceBuffer(() => Array(count).fill(null).map(() => ({type: 'cursor', direction: 'right'})));
+    }
+
+    /**
+     * Moves the cursor to the start of the line.
+     */
+    export function home(): BufferOperator {
+        return _reduceBuffer(() => [{type: 'cursor', direction: 'home'}]);
+    }
+
+    /**
+     * Moves the cursor to the end of the line.
+     */
+    export function end(): BufferOperator {
+        return _reduceBuffer(() => [{type: 'cursor', direction: 'end'}]);
+    }
+
+    /**
+     * Deletes a character to the left.
+     */
+    export function backSpace(count: number = 1): BufferOperator {
+        return _reduceBuffer(() => Array(count).fill(null).map(() => ({type: 'backspace'})));
+    }
 }
 
-export function left(count: number = 1): OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent> {
+function _reduceBuffer(events: () => EngineEvents.DelayEvent[]) {
     return function (source: Observable<EngineEvents.BufferEvent>): Observable<EngineEvents.BufferEvent> {
-        const keys = Array(count).fill(null).map(() => ({type: 'cursor', column: -1}));
-        return source.pipe(_reduce(of(...keys).pipe(_delayReducers())));
-    };
-}
-
-export function backSpace(count: number = 1): OperatorFunction<EngineEvents.BufferEvent, EngineEvents.BufferEvent> {
-    return function (source: Observable<EngineEvents.BufferEvent>): Observable<EngineEvents.BufferEvent> {
-        const keys = Array(count).fill(null).map(() => ({type: 'cursor', column: -1}));
-        return source.pipe(_reduce(of(...keys).pipe(_delayReducers())));
+        const events$ = of(...events());
+        return source.pipe(_reduce(events$.pipe(_delayEvents())));
     };
 }
 
 /**
  * Applies a delay to the stream of changes to make it look like someone is typing.
  */
-function _delayReducers<T>(): OperatorFunction<T, T> {
-    const SPEED = 100;
-    const BASE_SPEED = 20;
-// const SPEED = 1;
-// const BASE_SPEED = 10;
-    return function (source: Observable<T>): Observable<T> {
+function _delayEvents(): OperatorFunction<EngineEvents.DelayEvent, EngineEvents.DelayEvent> {
+    // const SPEED = 100;
+    // const BASE_SPEED = 20;
+    const SPEED = 1;
+    const BASE_SPEED = 10;
+    return function (source: Observable<EngineEvents.DelayEvent>): Observable<EngineEvents.DelayEvent> {
         return source.pipe(
             map(s => {
-                const r = Math.floor(Math.random() * Math.floor(SPEED));
-                return of(s).pipe(delay(BASE_SPEED + r));
+                const time = typeof s.delay === 'undefined'
+                    ? BASE_SPEED + Math.floor(Math.random() * Math.floor(SPEED))
+                    : s.delay;
+                return of(s).pipe(delay(time));
             }),
             concatAll()
         );
@@ -63,6 +99,8 @@ function _reduce(events: Observable<EngineEvents.EventType>): OperatorFunction<E
                     return KeyPressReducer(acc, value);
                 } else if (EngineEvents.isCursorEvent(value)) {
                     return CursorMoveReducer(acc, value);
+                } else if (EngineEvents.isBackspaceEvent(value)) {
+                    return BackspaceReducer(acc, value);
                 }
                 throw new Error('unexpected value in buffer stream');
             })
