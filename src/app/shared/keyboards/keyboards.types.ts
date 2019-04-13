@@ -2,6 +2,11 @@ import {concat, Observable, of, OperatorFunction} from 'rxjs';
 import {concatAll, delay, map, scan} from 'rxjs/operators';
 
 export namespace Keyboards {
+    // const SPEED = 100;
+    // const BASE_SPEED = 20;
+    const SPEED = 1;
+    const BASE_SPEED = 1;
+
     /**
      * A buffer of text with a cursor location for editing.
      */
@@ -35,8 +40,8 @@ export namespace Keyboards {
         return function (source: Observable<T>): Observable<T> {
             return source.pipe(
                 map(s => {
-                    const r = Math.floor(Math.random() * Math.floor(100));
-                    return of(s).pipe(delay(20 + r));
+                    const r = Math.floor(Math.random() * Math.floor(SPEED));
+                    return of(s).pipe(delay(BASE_SPEED + r));
                 }),
                 concatAll()
             );
@@ -59,7 +64,21 @@ export namespace Keyboards {
     }
 
     /**
-     * Types a sequence of characters at current cursor location.
+     * Inserts a new line of text in the buffer.
+     */
+    function newLine(source: Buffer): Buffer {
+        const b = {...source};
+        b.text = b.text.slice();
+        b.column = 0;
+        b.row++;
+        if (b.row > b.text.length) {
+            b.text.push([]);
+        }
+        return b;
+    }
+
+    /**
+     * Types a sequence of characters and moves cursor forward.
      */
     export function type(characters: string): OperatorFunction<Buffer, Buffer> {
         return function (source: Observable<Buffer>): Observable<Buffer> {
@@ -68,7 +87,14 @@ export namespace Keyboards {
                 of(...characters.split('')).pipe(delayStrokes())
             ).pipe(
                 scan<string, Buffer>((acc, value) => {
-                    return isBuffer(value) ? value : insert(acc, value);
+                    if (isBuffer(value)) {
+                        return value;
+                    }
+                    switch (value) {
+                        case '\r':
+                            return newLine(acc);
+                    }
+                    return insert(acc, value);
                 })
             );
         };
