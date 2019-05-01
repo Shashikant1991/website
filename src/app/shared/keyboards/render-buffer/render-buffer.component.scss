@@ -4,9 +4,6 @@ ws-render-buffer {
     display: flex;
     flex-direction: column;
 
-    .blink {
-    }
-
     @keyframes blink-animation {
         to {
             visibility: hidden;
@@ -20,10 +17,10 @@ ws-render-buffer {
         &::after {
             display: block;
             position: absolute;
-            top: -1rem;
-            height: 1.2rem;
-            width: 2px;
-            background-color: $gray-800;
+            top: -0.8rem;
+            height: 1.0rem;
+            width: 0.5rem;
+            background-color: $white-700;
             content: ' ';
             animation: blink-animation 800ms steps(5, start) infinite;
         }

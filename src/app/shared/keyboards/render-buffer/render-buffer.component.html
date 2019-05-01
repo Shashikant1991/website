@@ -1,1 +1,1 @@
-<div *ngFor="let line of buffer.text; let indx = index; trackBy: trackByLine" [innerHTML]="toHtml(indx)"></div>
+<div *ngFor="let line of lines" [innerHTML]="line"></div>

@@ -10,7 +10,7 @@ export function InsertCharReducer(source: EngineEvents.BufferEvent, char: string
         b.text[b.row] = [];
     }
     b.text[b.row] = b.text[b.row].slice();
-    b.text[b.row].splice(b.column, 0, char);
+    b.text[b.row].splice(b.column, 0, {char, color: b.color});
     b.column++;
     return b;
 }

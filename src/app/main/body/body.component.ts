@@ -3,8 +3,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_
 import {WINDOW} from '@ng-toolkit/universal';
 import {Emittable, Emitter} from '@ngxs-labs/emitter';
 import {fromEvent, Subject} from 'rxjs';
-import {filter} from 'rxjs/internal/operators/filter';
-import {map, startWith, takeUntil} from 'rxjs/operators';
+import {filter, map, startWith, takeUntil} from 'rxjs/operators';
 import {AppState} from '../../states/app/app.state';
 
 @Component({
@@ -28,6 +27,9 @@ export class BodyComponent implements OnInit, OnDestroy {
         this._destroyed$.complete();
     }
 
+    /**
+     * @deprecated Was used to scroll the top bar on the original site design.
+     */
     public ngOnInit(): void {
         if (isPlatformBrowser(this._platform_id)) {
             fromEvent(this._wnd, 'scroll').pipe(

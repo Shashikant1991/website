@@ -1,0 +1,40 @@
+<ng-container *ngIf="buffer$ | async as buffer">
+    <ng-container *ngIf="positionTerminal$ | async as pos">
+        <ws-window class="window-terminal"
+                   data-title="Terminal"
+                   [ngStyle]="pos">
+            <ws-terminal *ngIf="!nanoBuffer"
+                         class="terminal-theme"
+                         [buffer]="buffer"></ws-terminal>
+            <ws-nano *ngIf="nanoBuffer"
+                     class="terminal-theme"
+                     [fileName]="'styles.scss'"
+                     [buffer]="nanoBuffer"></ws-nano>
+            <div *ngIf="paused$ | async" class="paused-message">PAUSED</div>
+        </ws-window>
+    </ng-container>
+    <ng-container *ngIf="positionBrowser$ | async as pos">
+        <ws-window class="window-chromium"
+                   data-title="Chromium"
+                   [ngStyle]="pos">
+            <ws-chromium>
+                <ws-default-angular *ngIf="!showComponents"></ws-default-angular>
+                <ng-container *ngIf="showComponents">
+                    <ws-clone-component tagName="ws-summary" [playBack]="playBackSummary$ | async">
+                        <ws-summary></ws-summary>
+                    </ws-clone-component>
+                    <ws-clone-component tagName="ws-skills" [playBack]="playBackSkills$ | async">
+                        <ws-skills></ws-skills>
+                    </ws-clone-component>
+                    <ws-clone-component tagName="ws-experience" [playBack]="playBackExperience$ | async">
+                        <ws-experience></ws-experience>
+                    </ws-clone-component>
+                    <ws-clone-component tagName="ws-contact" [playBack]="playBackContact$ | async">
+                        <ws-contact></ws-contact>
+                    </ws-clone-component>
+                </ng-container>
+            </ws-chromium>
+            <div *ngIf="paused$ | async" class="paused-message">PAUSED</div>
+        </ws-window>
+    </ng-container>
+</ng-container>

@@ -1,0 +1,17 @@
+@import "../config";
+
+ws-menu {
+    display: flex;
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: $bg-color;
+    align-items: baseline;
+
+    .brand {
+        font-size: 32px;
+        .prefix {
+            font-weight: bold
+        }
+    }
+}
