@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, Output, ViewEncapsulation} from '@angular/core';
 import {EngineEvents} from '../engine/engine.events';
 
 @Component({
@@ -9,17 +9,41 @@ import {EngineEvents} from '../engine/engine.events';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RenderBufferComponent {
-    @Input()
-    public buffer: EngineEvents.BufferEvent;
+    public lines: string[];
 
-    public toHtml(indx: number): string {
-        const text = this.buffer.text[indx].slice();
-        if (indx === this.buffer.row) {
-            text.splice(this.buffer.column, 0, '<span class="cursor"></span>');
+    @Input()
+    public set buffer(buffer: EngineEvents.BufferEvent) {
+        if (!buffer) {
+            this.lines = [];
+            return;
         }
-        const html = text.join('');
-        return html === '' ? '&nbsp;' : html;
+        this.lines = buffer.text.map((t, indx) => this._toHtml(buffer.text[indx].slice(), indx, buffer.row, buffer.column));
     }
 
-    public trackByLine = (indx) => this.toHtml(indx);
+    private _toHtml(chars: EngineEvents.BufferChar[], indx: number, row: number, column: number): string {
+        if (indx === row) {
+            chars.splice(column, 0, undefined);
+        }
+        let color = null;
+        let html = chars.map(char => {
+            let str = '';
+            if (char) {
+                if (color !== char.color) {
+                    if (color !== null) {
+                        str += '</span>';
+                    }
+                    str += `<span class="c${char.color}">`;
+                }
+                color = char.color;
+                str += char.char;
+            } else {
+                str += '<span class="cursor"></span>';
+            }
+            return str;
+        }).join('');
+        if (html !== '') {
+            html += '</span>';
+        }
+        return html === '' ? '&nbsp;' : html;
+    }
 }

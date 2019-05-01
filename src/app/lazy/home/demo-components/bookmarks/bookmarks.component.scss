@@ -1,0 +1,21 @@
+@import "../config";
+
+ws-bookmarks {
+    display: flex;
+    flex-direction: column;
+    color: $color;
+
+    h1 {
+        font-size: 22px;
+        color: $titleColor;
+        padding-bottom: 12px;
+    }
+
+    .placeholder {
+        background-color: gray;
+    }
+
+    .description {
+        display: flex;
+    }
+}

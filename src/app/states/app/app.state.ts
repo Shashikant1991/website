@@ -22,7 +22,7 @@ export class AppState {
 
     @Receiver({payload: 0})
     public static setScroll(ctx: AppContext, {payload}: EmitterAction<number>) {
-        ctx.setState({scroll: payload});
+        ctx.patchState({scroll: payload});
     }
 
     @Selector()

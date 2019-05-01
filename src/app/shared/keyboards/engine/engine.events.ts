@@ -1,16 +1,24 @@
+import {Observable} from 'rxjs';
+
 export namespace EngineEvents {
+    export interface BufferChar {
+        char: string;
+        color: number;
+    }
+
     export interface EventType {
         type: string;
     }
 
     export interface DelayEvent extends EventType {
-        delay?: number;
+        delay?: number | Observable<any>;
     }
 
     export interface BufferEvent extends EventType {
+        color: number;
         column: number;
         row: number;
-        text: string[][];
+        text: BufferChar[][];
         type: 'buffer';
     }
 
@@ -44,7 +52,43 @@ export namespace EngineEvents {
         return typeof value === 'object' && 'type' in value && value['type'] === 'backspace';
     }
 
+    export interface SetEvent extends DelayEvent {
+        type: 'set';
+        value: string;
+    }
+
+    export function isSetEvent(value: any): value is SetEvent {
+        return typeof value === 'object' && 'type' in value && value['type'] === 'set';
+    }
+
+    export interface ColorEvent extends DelayEvent {
+        type: 'color';
+        value: number;
+    }
+
+    export function isColorEvent(value: any): value is ColorEvent {
+        return typeof value === 'object' && 'type' in value && value['type'] === 'color';
+    }
+
     export function isPauseEvent(value: any): value is DelayEvent {
         return typeof value === 'object' && 'type' in value && value['type'] === 'pause';
+    }
+
+    export interface SpeedEvent extends DelayEvent {
+        type: 'speed';
+        value: number;
+    }
+
+    export function isSpeedEvent(value: any): value is SpeedEvent {
+        return typeof value === 'object' && 'type' in value && value['type'] === 'speed';
+    }
+
+    export interface TapEvent extends DelayEvent {
+        callback: Function;
+        type: 'tap';
+    }
+
+    export function isTapEvent(value: any): value is TapEvent {
+        return typeof value === 'object' && 'type' in value && value['type'] === 'tap';
     }
 }

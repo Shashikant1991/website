@@ -1,0 +1,8 @@
+<a class="brand" [routerLink]="['/']" fragment="">
+    <span class="prefix">React</span><span class="tail">gular</span>
+</a>
+<a class="ml-auto mr-3" (click)="$event.preventDefault(); restart.emit()">Intro</a>
+<a class="mr-3" [routerLink]="['/']" fragment="summary">Summary</a>
+<a class="mr-3" [routerLink]="['/']" fragment="skills">Skills</a>
+<a class="mr-3" [routerLink]="['/']" fragment="experience">Experience</a>
+<a class="mr-3" [routerLink]="['/']" fragment="contact">Contact</a>

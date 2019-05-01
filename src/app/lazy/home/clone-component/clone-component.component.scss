@@ -1,0 +1,15 @@
+@import "../config";
+
+ws-clone-component {
+    display: block;
+
+    * {
+        transition: all 1s ease-in-out;
+    }
+
+    .off-screen {
+        position: fixed;
+        top: -99999px;
+        left: -99999px;
+    }
+}

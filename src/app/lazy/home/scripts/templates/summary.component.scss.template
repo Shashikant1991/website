@@ -1,0 +1,35 @@
+@import "../config";
+
+ws-summary {
+    display: flex;
+    color: $color;
+    // max-width: 50%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+
+    img {
+        width: 175px;
+        height: 175px;
+        border-radius: 50%;
+        flex: 0 0 172px;
+        margin-right: 2rem;
+    }
+
+    h1 {
+        font-size: 22px;
+        //width: 100%;
+        //max-width: 50%;
+        //margin-left: auto;
+        //margin-right: auto;
+        color: $titleColor;
+        padding-bottom: 12px;
+    }
+
+    p {
+        //width: 100%;
+        //max-width: 50%;
+        //margin-left: auto;
+        //margin-right: auto;
+    }
+}
