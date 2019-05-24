@@ -1,9 +1,9 @@
-import summaryCss from 'raw-loader!./templates/summary.component.css.template';
-import summaryHtml from 'raw-loader!./templates/summary.component.html.template';
-import summaryScss from 'raw-loader!./templates/summary.component.scss.template';
-import bookmarksCss from 'raw-loader!./templates/bookmarks.component.css.template';
-import bookmarksHtml from 'raw-loader!./templates/bookmarks.component.html.template';
-import bookmarksScss from 'raw-loader!./templates/bookmarks.component.scss.template';
+import summaryCss from 'raw-loader!!./templates/summary.component.css.template';
+import summaryHtml from 'raw-loader!!./templates/summary.component.html.template';
+import summaryScss from 'raw-loader!!./templates/summary.component.scss.template';
+import bookmarksCss from 'raw-loader!!./templates/bookmarks.component.css.template';
+import bookmarksHtml from 'raw-loader!!./templates/bookmarks.component.html.template';
+import bookmarksScss from 'raw-loader!!./templates/bookmarks.component.scss.template';
 import {ComponentBundle} from '../demo.types';
 
 function toArray(str: string): string[] {
