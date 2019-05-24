@@ -1,6 +1,6 @@
-<div class="container">
-    <div class="row">
-        <div class="col-12">
+<div class="container mt-5 mb-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
             <img src="/assets/logos/reactgular-logo.png" alt="Logo">
         </div>
     </div>
@@ -13,10 +13,19 @@
             have a passion for the front-end and created this website to share examples of what I can do.
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <span>LinkedIn</span>
-            <span>GitHub</span>
+    <div class="row mt-5">
+        <div class="col-12 d-flex">
+            <a class="btn btn-primary mr-3" href="https://www.linkedin.com/in/nick-foscarini/">
+                <fa-icon [icon]="faLinkedIn"></fa-icon>
+                LinkedIn
+            </a>
+            <a class="btn btn-primary" href="https://github.com/reactgular">
+                <fa-icon [icon]="faGitHub"></fa-icon>
+                GitHub
+            </a>
+            <button class="btn btn-secondary ml-auto" (click)="restart.emit()">
+                Replay Greeting
+            </button>
         </div>
     </div>
 </div>

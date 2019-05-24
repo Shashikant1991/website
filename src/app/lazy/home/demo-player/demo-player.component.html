@@ -20,17 +20,11 @@
             <ws-chromium>
                 <ws-default-angular *ngIf="!showComponents"></ws-default-angular>
                 <ng-container *ngIf="showComponents">
-                    <ws-clone-component tagName="ws-summary" [playBack]="playBackSummary$ | async">
+                    <ws-clone-component tagName="ws-summary" [playBack]="playSummary$ | async">
                         <ws-summary></ws-summary>
                     </ws-clone-component>
-                    <ws-clone-component tagName="ws-skills" [playBack]="playBackSkills$ | async">
-                        <ws-skills></ws-skills>
-                    </ws-clone-component>
-                    <ws-clone-component tagName="ws-experience" [playBack]="playBackExperience$ | async">
-                        <ws-experience></ws-experience>
-                    </ws-clone-component>
-                    <ws-clone-component tagName="ws-contact" [playBack]="playBackContact$ | async">
-                        <ws-contact></ws-contact>
+                    <ws-clone-component tagName="ws-skills" [playBack]="playBookmarks$ | async">
+                        <ws-bookmarks></ws-bookmarks>
                     </ws-clone-component>
                 </ng-container>
             </ws-chromium>

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const sass = require('node-sass');
 
-const files = ['summary', 'skills', 'experience', 'contact', 'menu'];
+const files = ['summary', 'bookmarks'];
 const fromPath = './src/app/lazy/home/demo-components';
 const toPath = './src/app/lazy/home/scripts/templates';
 

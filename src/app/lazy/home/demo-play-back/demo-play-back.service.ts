@@ -63,31 +63,9 @@ export class DemoPlayBackService {
             createComponentScript({
                 cancel$,
                 children$: this._nanoScript$,
-                component: 'Skills',
+                component: 'Bookmarks',
                 message: [
-                    '## Just 3 more components. Let\'s add a skills section next.'
-                ],
-                path,
-                pause$,
-                playBack$: this._playBack$
-            }),
-            createComponentScript({
-                cancel$,
-                children$: this._nanoScript$,
-                component: 'Experience',
-                message: [
-                    '## Just 2 more components. Let\'s add a work history section next.'
-                ],
-                path,
-                pause$,
-                playBack$: this._playBack$
-            }),
-            createComponentScript({
-                cancel$,
-                children$: this._nanoScript$,
-                component: 'Contact',
-                message: [
-                    '## One more component and we\'re done! Let\'s add a contact form next.'
+                    '## Let\'s add a project to my portfolio with a live demo.'
                 ],
                 path,
                 pause$,

@@ -43,13 +43,9 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
 
     public readonly paused$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-    public playBackContact$: Observable<ComponentPlayback>;
+    public playBookmarks$: Observable<ComponentPlayback>;
 
-    public playBackExperience$: Observable<ComponentPlayback>;
-
-    public playBackSkills$: Observable<ComponentPlayback>;
-
-    public playBackSummary$: Observable<ComponentPlayback>;
+    public playSummary$: Observable<ComponentPlayback>;
 
     public positionBrowser$: Observable<any>;
 
@@ -133,10 +129,8 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             this._change.markForCheck();
         });
 
-        this.playBackSummary$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Summary'));
-        this.playBackSkills$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Skills'));
-        this.playBackExperience$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Experience'));
-        this.playBackContact$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Contact'));
+        this.playSummary$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Summary'));
+        this.playBookmarks$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Bookmarks'));
     }
 
     public pause() {

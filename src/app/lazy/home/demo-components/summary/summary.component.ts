@@ -1,5 +1,7 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 import {faGithubSquare, faLinkedin} from '@fortawesome/free-brands-svg-icons';
+import {Emittable, Emitter} from '@ngxs-labs/emitter';
+import {DemoState} from '../../../../states/demo/demo.state';
 
 @Component({
     selector: 'ws-summary',
@@ -12,4 +14,7 @@ export class SummaryComponent {
     public faGitHub = faGithubSquare;
 
     public faLinkedIn = faLinkedin;
+
+    @Emitter(DemoState.restartDemo)
+    public restart: Emittable<void>;
 }
