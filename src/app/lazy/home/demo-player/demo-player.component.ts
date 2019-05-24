@@ -12,10 +12,9 @@ import {
 } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {WINDOW} from '@ng-toolkit/universal';
+import {BufferEvent} from 'rg-animated-typing';
 import {BehaviorSubject, combineLatest, fromEvent, Observable, Subject} from 'rxjs';
-import {filter} from 'rxjs/internal/operators/filter';
-import {distinctUntilChanged, finalize, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
-import {EngineEvents} from '../../../shared/keyboards/engine/engine.events';
+import {distinctUntilChanged, filter, finalize, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {DemoPlayBackService} from '../demo-play-back/demo-play-back.service';
 import {ComponentPlayback, MIN_DEMO_WIDTH} from '../demo.types';
 
@@ -32,12 +31,12 @@ function lerp(start, end, amt) {
 })
 export class DemoPlayerComponent implements OnInit, OnDestroy {
 
-    public buffer$: Observable<EngineEvents.BufferEvent>;
+    public buffer$: Observable<BufferEvent>;
 
     @Output()
     public finished: EventEmitter<void> = new EventEmitter();
 
-    public nanoBuffer: EngineEvents.BufferEvent;
+    public nanoBuffer: BufferEvent;
 
     @Output()
     public paused: EventEmitter<void> = new EventEmitter();
@@ -97,7 +96,7 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.buffer$ = this._demoScripts.play(this.paused$.asObservable(), this._destroyed$).pipe(
+        this.buffer$ = this._demoScripts.play(this._destroyed$, this.paused$.asObservable()).pipe(
             finalize(() => this.finished.emit()),
             takeUntil(this._destroyed$)
         );
@@ -130,7 +129,6 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             // first(),
             takeUntil(this._destroyed$)
         ).subscribe((value) => {
-            console.log(value);
             this.showComponents = true;
             this._change.markForCheck();
         });
@@ -155,7 +153,7 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             startWith(this._wnd.innerWidth)
         );
 
-        this.positionTerminal$ = combineLatest(width$, this._demoScripts.layout()).pipe(
+        this.positionTerminal$ = combineLatest([width$, this._demoScripts.layout()]).pipe(
             map(([width, layout]) => {
                 const delta = 1 - (Math.min(1024, width - MIN_DEMO_WIDTH) / 1024);
                 const angle = lerp(0, 20, delta);
@@ -170,7 +168,7 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             })
         );
 
-        this.positionBrowser$ = combineLatest(width$, this._demoScripts.layout()).pipe(
+        this.positionBrowser$ = combineLatest([width$, this._demoScripts.layout()]).pipe(
             map(([width, layout]) => {
                 const delta = 1 - (Math.min(1024, width - MIN_DEMO_WIDTH) / 1024);
                 const angle = lerp(0, -20, delta);

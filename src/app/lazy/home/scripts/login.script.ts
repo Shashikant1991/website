@@ -1,18 +1,17 @@
-import {EngineAnimation} from '../../../shared/keyboards/engine/engine-animation';
-import {Keyboard} from '../../../shared/keyboards/engine/keyboard.operators';
-import {Terminal} from '../../../shared/keyboards/engine/terminal.operators';
+import {EventQueue, EventsOperator, pause, setChars, typeChars} from 'rg-animated-typing';
+import {Terminal} from './terminal.operators';
 
-export function loginScript(): Keyboard.EventsOperator {
-    return function (queue: EngineAnimation): EngineAnimation {
+export function loginScript(): EventsOperator {
+    return function (queue: EventQueue): EventQueue {
         return queue.pipe(
             Terminal.prompt('nick', '~'),
-            Keyboard.pause(),
-            Keyboard.type('ssh root@reactgular.com\r'),
-            Keyboard.pause(500),
-            Keyboard.set('password: '),
-            Keyboard.type('************\r'),
-            Keyboard.pause(500),
-            Keyboard.set('\rWelcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-43-generic x86_64)\r\r' +
+            pause(),
+            typeChars('ssh root@reactgular.com\r'),
+            pause(500),
+            setChars('password: '),
+            typeChars('************\r'),
+            pause(500),
+            setChars('\rWelcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-43-generic x86_64)\r\r' +
                 ' * Documentation:  https://help.ubuntu.com\r' +
                 ' * Management:     https://landscape.canonical.com\r' +
                 ' * Support:        https://ubuntu.com/advantage\r\r' +

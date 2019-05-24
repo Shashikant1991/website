@@ -1,39 +1,36 @@
+import {EventQueue, EventsOperator, pause, tapEvents, typeChars} from 'rg-animated-typing';
 import {Subject} from 'rxjs';
-import {EngineAnimation} from '../../../shared/keyboards/engine/engine-animation';
-import {reduceEvents} from '../../../shared/keyboards/engine/engine.operators';
-import {Keyboard} from '../../../shared/keyboards/engine/keyboard.operators';
-import {Terminal} from '../../../shared/keyboards/engine/terminal.operators';
 import {CreateComponentOptions} from '../demo.types';
 import {loadComponentBundles} from './load-component-bundles';
+import {Terminal} from './terminal.operators';
 
 const bundles = loadComponentBundles();
 
-export function editComponentScript(options: CreateComponentOptions, mode: 'html' | 'scss'): Keyboard.EventsOperator {
+export function editComponentScript(options: CreateComponentOptions, mode: 'html' | 'scss'): EventsOperator {
     const fileName = options.component.toLowerCase();
     const finished$: Subject<void> = new Subject();
     const bundle = bundles.get(options.component);
 
-    let edit = EngineAnimation.create();
+    let edit = EventQueue.create();
     const source = (mode === 'html' ? bundle.html : bundle.scss);
     const typing = source.map((str, indx) => {
-        return (queue: EngineAnimation): EngineAnimation => {
+        return (queue: EventQueue): EventQueue => {
             const html = mode === 'html' ? (indx + 1) / source.length : 1;
             const style = mode !== 'html' ? (indx + 1) / source.length : 0;
             return queue.pipe(
-                Keyboard.type(Keyboard.escapeHtml(str) + '\r'),
-                Keyboard.tap(() => options.playBack$.next({name: options.component, html, style}))
+                // typeChars(Keyboard.escapeHtml(str) + '\r'),
+                typeChars(str + '\r'),
+                tapEvents(() => options.playBack$.next({name: options.component, html, style}))
             );
         };
     });
     edit = edit.pipe(...typing);
     const script = edit.pipe(
-        Keyboard.pause(2000),
-        Keyboard.tap(() => finished$.next())
-    ).streamUntil(options.pause$, options.cancel$).pipe(
-        reduceEvents()
-    );
+        pause(2000),
+        tapEvents(() => finished$.next())
+    ).play(options.cancel$, options.pause$);
 
-    return function (queue: EngineAnimation): EngineAnimation {
+    return function (queue: EventQueue): EventQueue {
         return queue.pipe(
             Terminal.multiline([
                 mode === 'html'
@@ -44,9 +41,9 @@ export function editComponentScript(options: CreateComponentOptions, mode: 'html
                 `nano src/app/${fileName}.component.${mode}`
             ], options.path),
             // play the nano script
-            Keyboard.tap(() => options.children$.next(script)),
+            tapEvents(() => options.children$.next(script)),
             // wait for it to finish
-            Keyboard.pause(finished$)
+            pause(finished$)
         );
     };
 }

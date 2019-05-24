@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {WINDOW} from '@ng-toolkit/universal';
+import {BufferEvent} from 'rg-animated-typing';
 import {fromEvent, Observable, Subject} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import {EngineEvents} from '../../../shared/keyboards/engine/engine.events';
 
 @Component({
     selector: 'ws-nano',
@@ -13,7 +13,7 @@ import {EngineEvents} from '../../../shared/keyboards/engine/engine.events';
 })
 export class NanoComponent implements OnInit, OnDestroy {
     @Input()
-    public buffer: EngineEvents.BufferEvent;
+    public buffer: BufferEvent;
 
     @Input()
     public fileName: string;
@@ -28,8 +28,7 @@ export class NanoComponent implements OnInit, OnDestroy {
 
     private readonly _keys2: string[][];
 
-    public constructor(@Inject(WINDOW) private _wnd: Window,
-                       private _change: ChangeDetectorRef) {
+    public constructor(@Inject(WINDOW) private _wnd: Window) {
         this._keys1 = [
             '^G|Get Help', '^O|Write Out', '^W|Where Is', '^K|Cut Text', '^J|Justify', '^C|Cur Pos', 'M-U|Undo', 'M-A|Mark Text',
             'M-]|To Bracket', 'M-▲|Previous', '^B|Back', '^◀|Prev Word'

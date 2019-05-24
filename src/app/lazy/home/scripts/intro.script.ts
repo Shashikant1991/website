@@ -1,9 +1,8 @@
-import {EngineAnimation} from '../../../shared/keyboards/engine/engine-animation';
-import {Keyboard} from '../../../shared/keyboards/engine/keyboard.operators';
-import {Terminal} from '../../../shared/keyboards/engine/terminal.operators';
+import {EventQueue, EventsOperator, multiline} from 'rg-animated-typing';
+import {Terminal} from './terminal.operators';
 
-export function introScript(): Keyboard.EventsOperator {
-    return function (queue: EngineAnimation): EngineAnimation {
+export function introScript(): EventsOperator {
+    return function (queue: EventQueue): EventQueue {
         return queue.pipe(
             Terminal.multiline([
                 '## Hi, My name is Nick Foscarini.',
@@ -12,7 +11,7 @@ export function introScript(): Keyboard.EventsOperator {
                 '## I have over 10+ years of experience.',
                 '## You caught me in the middle of making my website.',
                 '## Why don\'t you stay and watch while I finish it!'
-            ], '~', 2000)
+            ], 'reactgular')
         );
     };
 }

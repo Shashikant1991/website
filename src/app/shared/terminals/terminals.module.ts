@@ -1,16 +1,16 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {KeyboardsModule} from '../keyboards/keyboards.module';
+import {RgAnimatedTypingModule} from 'rg-animated-typing';
 import {ChromiumComponent} from './chromium/chromium.component';
 import {TerminalComponent} from './terminal/terminal.component';
-import { WindowComponent } from './window/window.component';
+import {WindowComponent} from './window/window.component';
 
 @NgModule({
     imports: [
         CommonModule,
-        KeyboardsModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        RgAnimatedTypingModule
     ],
     declarations: [
         TerminalComponent,
