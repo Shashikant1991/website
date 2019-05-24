@@ -28,14 +28,18 @@ package:
 install:
     stage: deploy
     script:
+        - sudo a2dissite website-le-ssl || true
         - sudo a2dissite website || true
         - sudo service apache2 reload
         - sudo rm -fr /var/website || true
         - sudo mkdir /var/website
         - sudo tar -xzf website.tar.gz -C /var/website
         - sudo chown -R www-data:www-data /var/website
+        - sudo cp /var/website/bin/website-le-ssl.conf /etc/apache2/sites-available/website-le-ssl.conf
         - sudo cp /var/website/bin/website.conf /etc/apache2/sites-available/website.conf
+        - sudo chown www-data:www-data /etc/apache2/sites-available/website-le-ssl.conf
         - sudo chown www-data:www-data /etc/apache2/sites-available/website.conf
+        - sudo a2ensite website-le-ssl
         - sudo a2ensite website
         - sudo service apache2 reload
     dependencies:
