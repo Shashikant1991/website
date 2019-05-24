@@ -18,12 +18,12 @@
                    data-title="Chromium"
                    [ngStyle]="pos">
             <ws-chromium>
-                <ws-default-angular *ngIf="!showComponents"></ws-default-angular>
-                <ng-container *ngIf="showComponents">
+                <ws-default-angular *ngIf="!(showComponents$ | async)"></ws-default-angular>
+                <ng-container *ngIf="showComponents$ | async">
                     <ws-clone-component tagName="ws-summary" [playBack]="playSummary$ | async">
                         <ws-summary></ws-summary>
                     </ws-clone-component>
-                    <ws-clone-component tagName="ws-skills" [playBack]="playBookmarks$ | async">
+                    <ws-clone-component tagName="ws-bookmarks" [playBack]="playBookmarks$ | async">
                         <ws-bookmarks></ws-bookmarks>
                     </ws-clone-component>
                 </ng-container>

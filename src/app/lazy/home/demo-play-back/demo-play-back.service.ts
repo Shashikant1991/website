@@ -33,7 +33,6 @@ export class DemoPlayBackService {
     public play(cancel$: Observable<any>, pause$: Observable<boolean>): Observable<BufferEvent> {
 
         const path = '~/reactgular';
-        const src = '~/reactgular/src/app';
 
         return EventQueue.create().pipe(
             tapEvents(() => this._layout$.next('single')),

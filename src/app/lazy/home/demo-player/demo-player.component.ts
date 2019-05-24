@@ -14,7 +14,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {WINDOW} from '@ng-toolkit/universal';
 import {BufferEvent} from '@typewriterjs/typewriterjs';
 import {BehaviorSubject, combineLatest, fromEvent, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, finalize, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, finalize, first, map, mapTo, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {DemoPlayBackService} from '../demo-play-back/demo-play-back.service';
 import {ComponentPlayback, MIN_DEMO_WIDTH} from '../demo.types';
 
@@ -54,7 +54,7 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
     @Output()
     public resumed: EventEmitter<void> = new EventEmitter();
 
-    public showComponents = false;
+    public showComponents$: Observable<boolean>;
 
     private readonly _destroyed$: Subject<void> = new Subject();
 
@@ -120,14 +120,11 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             });
         });
 
-        this._demoScripts.playBack().pipe(
-            // @todo for debugging
-            // first(),
-            takeUntil(this._destroyed$)
-        ).subscribe((value) => {
-            this.showComponents = true;
-            this._change.markForCheck();
-        });
+        this.showComponents$ = this._demoScripts.playBack().pipe(
+            first(),
+            mapTo(true),
+            startWith(false),
+        );
 
         this.playSummary$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Summary'));
         this.playBookmarks$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Bookmarks'));
