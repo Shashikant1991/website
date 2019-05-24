@@ -41,6 +41,6 @@ install:
     dependencies:
         - package
     tags:
-        - website
+        - reactgular
 #  only:
 #    - /^v\d+\.\d+\.\d+$/
