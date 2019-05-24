@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
+import {faGithubSquare, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 
 @Component({
     selector: 'ws-summary',
@@ -8,4 +9,7 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SummaryComponent {
+    public faGitHub = faGithubSquare;
+
+    public faLinkedIn = faLinkedin;
 }

@@ -45,6 +45,10 @@ export class OutletHomeComponent implements OnInit, OnDestroy {
             filter(Boolean),
             first(),
             takeUntil(this._destroyed$)
-        ).subscribe(() => this.demoPlayer.pause());
+        ).subscribe(() => {
+            if (this.demoPlayer) {
+                this.demoPlayer.pause();
+            }
+        });
     }
 }

@@ -1,16 +1,23 @@
-<img src="/assets/profile-175x175.jpg" alt="Profile">
-<div class="">
-    <h1>Hello, my name is Nick Foscarini.</h1>
-    <p>
-        I'm a Full Stack Developer with 10+ years' experience in software development. I
-        have a passion for the front-end and created this website to share working
-        demonstrations and source code of what I can do. If you're looking for a developer
-        who's worked with Angular, React, NodeJS, PHP, C#, Linux, MySQL, MongoDB,
-        PostgresSQL and everything in between, then take a moment and try one of my demos
-        and experience what I can do.
-    </p>
-    <div class="d-flex mt-5">
-        <a href="//demo.reactgular.com/" class="ml-auto mr-3 btn btn-primary">Try Demo</a>
-        <a href="//assets/angular-demo.zip" class="mr-auto btn btn-primary">Download Source Code</a>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <img src="/assets/logos/reactgular-logo.png" alt="Logo">
+        </div>
+    </div>
+    <div class="row">
+        <h1 class="col-6">
+            Hello, I'm Nick Foscarini a software developer from Toronto, Canada.
+        </h1>
+        <div class="col-6">
+            I'm a Full Stack Developer with 10+ years' experience in software development. I
+            have a passion for the front-end and created this website to share examples of what I can do.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <span>LinkedIn</span>
+            <span>GitHub</span>
+        </div>
     </div>
 </div>
+

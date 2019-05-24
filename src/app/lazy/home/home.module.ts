@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {TerminalsModule} from '../../shared/terminals/terminals.module';
 import {DefaultAngularComponent} from './default-angular/default-angular.component';
 import {ContactComponent} from './demo-components/contact/contact.component';
@@ -19,7 +20,8 @@ import { BookmarksComponent } from './demo-components/bookmarks/bookmarks.compon
     imports: [
         CommonModule,
         HomeRoutingModule,
-        TerminalsModule
+        TerminalsModule,
+        FontAwesomeModule
     ],
     declarations: [
         ContactComponent,
