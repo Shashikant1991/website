@@ -1,5 +1,5 @@
+import {BufferEvent} from 'rg-animated-typing';
 import {Observable, Subject} from 'rxjs';
-import {EngineEvents} from '../../shared/keyboards/engine/engine.events';
 
 export const MIN_DEMO_WIDTH = 1024;
 
@@ -16,7 +16,7 @@ export interface ComponentPlayback {
 
 export interface CreateComponentOptions {
     cancel$: Observable<any>;
-    children$: Subject<Observable<EngineEvents.BufferEvent>>;
+    children$: Subject<Observable<BufferEvent>>;
     component: string;
     message: string[];
     path: string;

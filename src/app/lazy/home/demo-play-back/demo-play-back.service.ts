@@ -1,10 +1,6 @@
 import {Injectable} from '@angular/core';
+import {BufferEvent, EventQueue, tapEvents} from 'rg-animated-typing';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
-import {EngineAnimation} from '../../../shared/keyboards/engine/engine-animation';
-import {EngineEvents} from '../../../shared/keyboards/engine/engine.events';
-import {reduceEvents} from '../../../shared/keyboards/engine/engine.operators';
-import {Keyboard} from '../../../shared/keyboards/engine/keyboard.operators';
-import {Terminal} from '../../../shared/keyboards/engine/terminal.operators';
 import {ComponentPlayback} from '../demo.types';
 import {createComponentScript} from '../scripts/create-component.script';
 import {createProjectScript} from '../scripts/create-project.script';
@@ -13,13 +9,14 @@ import {installAngularScript} from '../scripts/install-angular.script';
 import {introScript} from '../scripts/intro.script';
 import {loginScript} from '../scripts/login.script';
 import {ngServerScript} from '../scripts/ng-serve.script';
+import {Terminal} from '../scripts/terminal.operators';
 
 @Injectable({providedIn: 'root'})
 export class DemoPlayBackService {
 
     private readonly _layout$: ReplaySubject<string> = new ReplaySubject(1);
 
-    private readonly _nanoScript$: Subject<Observable<EngineEvents.BufferEvent>> = new Subject();
+    private readonly _nanoScript$: Subject<Observable<BufferEvent>> = new Subject();
 
     private readonly _playBack$: Subject<ComponentPlayback> = new Subject();
 
@@ -29,25 +26,25 @@ export class DemoPlayBackService {
         return this._layout$.asObservable();
     }
 
-    public nanoScripts(): Observable<Observable<EngineEvents.BufferEvent>> {
+    public nanoScripts(): Observable<Observable<BufferEvent>> {
         return this._nanoScript$.asObservable();
     }
 
-    public play(pause$: Observable<boolean>, cancel$: Observable<any>): Observable<EngineEvents.BufferEvent> {
+    public play(cancel$: Observable<any>, pause$: Observable<boolean>): Observable<BufferEvent> {
 
         const path = '~/reactgular';
         const src = '~/reactgular/src/app';
 
-        return EngineAnimation.create().pipe(
-            Keyboard.tap(() => this._layout$.next('single')),
-            Keyboard.tap(() => this._stage$.next('intro')),
+        return EventQueue.create().pipe(
+            tapEvents(() => this._layout$.next('single')),
+            tapEvents(() => this._stage$.next('intro')),
             loginScript(),
             introScript(),
             installAngularScript(),
             createProjectScript(),
             ngServerScript(path),
-            Keyboard.tap(() => this._layout$.next('double')),
-            Keyboard.tap(() => this._stage$.next('browser')),
+            tapEvents(() => this._layout$.next('double')),
+            tapEvents(() => this._stage$.next('browser')),
             Terminal.multiline([
                 '## As you can see. This is an empty Angular project.',
                 '## We got some work to do!'
@@ -97,9 +94,7 @@ export class DemoPlayBackService {
                 playBack$: this._playBack$
             }),
             finishScript(path)
-        ).streamUntil(pause$, cancel$).pipe(
-            reduceEvents()
-        );
+        ).play(cancel$, pause$);
     }
 
     public playBack(): Observable<ComponentPlayback> {

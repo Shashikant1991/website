@@ -2,8 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@ang
 import {Emittable, Emitter} from '@ngxs-labs/emitter';
 import {Select} from '@ngxs/store';
 import {merge, Observable, Subject, timer} from 'rxjs';
-import {first} from 'rxjs/internal/operators/first';
-import {map, mapTo, startWith, takeUntil} from 'rxjs/operators';
+import {first, map, mapTo, startWith, takeUntil} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {DemoState} from '../../../states/demo/demo.state';
 import {DemoPlayerComponent} from '../demo-player/demo-player.component';

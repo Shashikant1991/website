@@ -9,9 +9,9 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
+import {BufferEvent} from 'rg-animated-typing/core/events/buffer.event';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {EngineEvents} from '../../keyboards/engine/engine.events';
 
 @Component({
     selector: 'ws-terminal',
@@ -22,7 +22,7 @@ import {EngineEvents} from '../../keyboards/engine/engine.events';
 })
 export class TerminalComponent implements OnChanges, OnInit, OnDestroy {
     @Input()
-    public buffer: EngineEvents.BufferEvent;
+    public buffer: BufferEvent;
 
     private _changes$: Subject<void> = new Subject();
 

@@ -1,9 +1,8 @@
-import {EngineAnimation} from '../../../shared/keyboards/engine/engine-animation';
-import {Keyboard} from '../../../shared/keyboards/engine/keyboard.operators';
-import {Terminal} from '../../../shared/keyboards/engine/terminal.operators';
+import {EventQueue, EventsOperator, pressNewLine, setChars} from 'rg-animated-typing';
+import {Terminal} from './terminal.operators';
 
-export function ngServerScript(path: string): Keyboard.EventsOperator {
-    return function (queue: EngineAnimation): EngineAnimation {
+export function ngServerScript(path: string): EventsOperator {
+    return function (queue: EventQueue): EventQueue {
         return queue.pipe(
             Terminal.multiline([
                 '## That was easy. Let\'s see what we\'ve got so far.'
@@ -11,8 +10,8 @@ export function ngServerScript(path: string): Keyboard.EventsOperator {
             Terminal.multiline([
                 'ng serve --prod --watch --open &'
             ], path),
-            Keyboard.newLine(),
-            Keyboard.set(
+            pressNewLine(),
+            setChars(
                 'chunk {{{3}}main{{0}}} {{1}}main.js, main.js.map{{0}} (main) 9.76 kB {{3}}[initial] {{1}}[rendered]{{0}}\r' +
                 'chunk {{{3}}polyfills{{0}}} {{1}}polyfills.js, polyfills.js.map{{0}} ' +
                 '(polyfills) 237 kB {{3}}[initial] {{1}}[rendered]{{0}}\r' +

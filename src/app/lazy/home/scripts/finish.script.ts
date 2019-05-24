@@ -1,9 +1,8 @@
-import {EngineAnimation} from '../../../shared/keyboards/engine/engine-animation';
-import {Keyboard} from '../../../shared/keyboards/engine/keyboard.operators';
-import {Terminal} from '../../../shared/keyboards/engine/terminal.operators';
+import {EventQueue, EventsOperator, pressNewLine, setChars} from 'rg-animated-typing';
+import {Terminal} from './terminal.operators';
 
-export function finishScript(path: string): Keyboard.EventsOperator {
-    return function (queue: EngineAnimation): EngineAnimation {
+export function finishScript(path: string): EventsOperator {
+    return function (queue: EventQueue): EventQueue {
         return queue.pipe(
             Terminal.multiline([
                 '## My new website is all finished!',
@@ -13,8 +12,8 @@ export function finishScript(path: string): Keyboard.EventsOperator {
                 '## Click anywhere to continue...'
             ], path, 0),
             Terminal.multiline(['exit'], path),
-            Keyboard.newLine(),
-            Keyboard.set('logout\r' +
+            pressNewLine(),
+            setChars('logout\r' +
                 'Connection to reactgular.com closed.'),
         );
     };

@@ -1,15 +1,14 @@
-import {EngineAnimation} from '../../../shared/keyboards/engine/engine-animation';
-import {Keyboard} from '../../../shared/keyboards/engine/keyboard.operators';
-import {Terminal} from '../../../shared/keyboards/engine/terminal.operators';
+import {EventQueue, EventsOperator, pressNewLine, setChars} from 'rg-animated-typing';
+import {Terminal} from './terminal.operators';
 
-export function createProjectScript(): Keyboard.EventsOperator {
-    return function (queue: EngineAnimation): EngineAnimation {
+export function createProjectScript(): EventsOperator {
+    return function (queue: EventQueue): EventQueue {
         return queue.pipe(
             Terminal.multiline([
                 'ng new reactgular --defaults --minimal --routing=true --style=scss'
             ]),
-            Keyboard.newLine(),
-            Keyboard.set(
+            pressNewLine(),
+            setChars(
                 '{{3}}CREATE{{0}} reactgular/angular.json (3931 bytes)\r' +
                 '{{3}}CREATE{{0}} reactgular/package.json (1309 bytes)\r' +
                 '{{3}}CREATE{{0}} reactgular/README.md (1027 bytes)\r' +
