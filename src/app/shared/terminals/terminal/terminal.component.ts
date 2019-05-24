@@ -9,7 +9,7 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
-import {BufferEvent} from 'rg-animated-typing/core/events/buffer.event';
+import {BufferEvent} from '@typewriterjs/typewriterjs';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 

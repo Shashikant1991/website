@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {RgAnimatedTypingModule} from 'rg-animated-typing';
+import {TypewriterModule} from '@typewriterjs/typewriterjs-angular';
 import {ChromiumComponent} from './chromium/chromium.component';
 import {TerminalComponent} from './terminal/terminal.component';
 import {WindowComponent} from './window/window.component';
@@ -10,7 +10,7 @@ import {WindowComponent} from './window/window.component';
     imports: [
         CommonModule,
         FontAwesomeModule,
-        RgAnimatedTypingModule
+        TypewriterModule
     ],
     declarations: [
         TerminalComponent,

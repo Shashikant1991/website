@@ -1,4 +1,4 @@
-import {EventQueue, EventsOperator, multiline} from 'rg-animated-typing';
+import {EventQueue, EventsOperator} from '@typewriterjs/typewriterjs';
 import {Terminal} from './terminal.operators';
 
 export function introScript(): EventsOperator {

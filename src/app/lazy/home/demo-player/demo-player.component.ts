@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {WINDOW} from '@ng-toolkit/universal';
-import {BufferEvent} from 'rg-animated-typing';
+import {BufferEvent} from '@typewriterjs/typewriterjs';
 import {BehaviorSubject, combineLatest, fromEvent, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, finalize, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {DemoPlayBackService} from '../demo-play-back/demo-play-back.service';

@@ -1,4 +1,4 @@
-import {EventQueue, EventsOperator, pause, tapEvents, typeChars} from 'rg-animated-typing';
+import {EventQueue, EventsOperator, pause, tapEvents, typeChars} from '@typewriterjs/typewriterjs';
 import {Subject} from 'rxjs';
 import {CreateComponentOptions} from '../demo.types';
 import {loadComponentBundles} from './load-component-bundles';

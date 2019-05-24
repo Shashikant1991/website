@@ -1,4 +1,4 @@
-import {BufferEvent} from 'rg-animated-typing';
+import {BufferEvent} from '@typewriterjs/typewriterjs';
 import {Observable, Subject} from 'rxjs';
 
 export const MIN_DEMO_WIDTH = 1024;

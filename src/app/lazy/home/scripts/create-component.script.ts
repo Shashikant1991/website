@@ -1,4 +1,4 @@
-import {EventQueue, EventsOperator, pressNewLine, setChars, tapEvents} from 'rg-animated-typing';
+import {EventQueue, EventsOperator, pressNewLine, setChars, tapEvents} from '@typewriterjs/typewriterjs';
 import {CreateComponentOptions} from '../demo.types';
 import {editComponentScript} from './edit-component.script';
 import {Terminal} from './terminal.operators';

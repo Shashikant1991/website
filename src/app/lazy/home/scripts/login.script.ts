@@ -1,4 +1,4 @@
-import {EventQueue, EventsOperator, pause, setChars, typeChars} from 'rg-animated-typing';
+import {EventQueue, EventsOperator, pause, setChars, typeChars} from '@typewriterjs/typewriterjs';
 import {Terminal} from './terminal.operators';
 
 export function loginScript(): EventsOperator {

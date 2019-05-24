@@ -1,4 +1,4 @@
-import {EventQueue, EventsOperator, pressNewLine, setChars} from 'rg-animated-typing';
+import {EventQueue, EventsOperator, pressNewLine, setChars} from '@typewriterjs/typewriterjs';
 import {Terminal} from './terminal.operators';
 
 export function installAngularScript(): EventsOperator {

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BufferEvent, EventQueue, tapEvents} from 'rg-animated-typing';
+import {BufferEvent, EventQueue, tapEvents} from '@typewriterjs/typewriterjs';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {ComponentPlayback} from '../demo.types';
 import {createComponentScript} from '../scripts/create-component.script';

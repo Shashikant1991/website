@@ -1,4 +1,4 @@
-import {cssClass, EventQueue, EventsOperator, pause, pressNewLine, setChars, typeChars} from 'rg-animated-typing';
+import {cssClass, EventQueue, EventsOperator, pause, pressNewLine, setChars, typeChars} from '@typewriterjs/typewriterjs';
 
 export namespace Terminal {
     export function prompt(domain: string, path: string): EventsOperator {

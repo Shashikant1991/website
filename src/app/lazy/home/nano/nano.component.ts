@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {WINDOW} from '@ng-toolkit/universal';
-import {BufferEvent} from 'rg-animated-typing';
+import {BufferEvent} from '@typewriterjs/typewriterjs';
 import {fromEvent, Observable, Subject} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
