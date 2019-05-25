@@ -1,9 +1,10 @@
-import summaryCss from 'raw-loader!!./templates/summary.component.css.template';
-import summaryHtml from 'raw-loader!!./templates/summary.component.html.template';
-import summaryScss from 'raw-loader!!./templates/summary.component.scss.template';
-import bookmarksCss from 'raw-loader!!./templates/bookmarks.component.css.template';
-import bookmarksHtml from 'raw-loader!!./templates/bookmarks.component.html.template';
-import bookmarksScss from 'raw-loader!!./templates/bookmarks.component.scss.template';
+import {lines as summaryHtml} from './templates/summary.component.html';
+import {lines as summaryScss} from './templates/summary.component.scss';
+import {lines as summaryCss} from './templates/summary.component.css';
+import {lines as bookmarksHtml} from './templates/bookmarks.component.html';
+import {lines as bookmarksScss} from './templates/bookmarks.component.scss';
+import {lines as bookmarksCss} from './templates/bookmarks.component.css';
+
 import {ComponentBundle} from '../demo.types';
 
 function toArray(str: string): string[] {
@@ -12,14 +13,14 @@ function toArray(str: string): string[] {
 
 export function loadComponentBundles(): Map<string, ComponentBundle> {
     const bundle = new Map<string, ComponentBundle>();
-    bundle.set('Summary', {html: toArray(summaryHtml), scss: toArray(summaryScss)});
-    bundle.set('Bookmarks', {html: toArray(bookmarksHtml), scss: toArray(bookmarksScss)});
+    bundle.set('Summary', {html: summaryHtml, scss: summaryScss});
+    bundle.set('Bookmarks', {html: bookmarksHtml, scss: bookmarksScss});
     return bundle;
 }
 
 export function loadComponentCss(): Map<string, string> {
     const bundle = new Map<string, string>();
-    bundle.set('ws-summary', summaryCss);
-    bundle.set('ws-bookmarks', bookmarksCss);
+    bundle.set('ws-summary', summaryCss.join(' '));
+    bundle.set('ws-bookmarks', bookmarksCss.join(' '));
     return bundle;
 }

@@ -1,9 +1,0 @@
-<h1>Bookmarks</h1>
-<p>
-    Bookmarks is an example of taking an idea from concept to delivery as a full stack project. Implemented with
-    Angular on the front-end, and NodeJS on the back end.
-</p>
-<img src="/assets/images/bookmarks-sample.jpg" alt="Image">
-<div class="footer">
-    <a class="btn btn-primary" href="http://bookmarks.reactgular.com/">View Live Demo</a>
-</div>
