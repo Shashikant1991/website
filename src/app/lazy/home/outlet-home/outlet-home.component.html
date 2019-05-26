@@ -1,12 +1,6 @@
-<ng-container *ngIf="playDemo$ | async; else finished">
-    <ws-demo-player #demoPlayer
-                    (paused)="paused = true"
-                    (resumed)="paused = false"></ws-demo-player>
-    <ws-demo-footer [demoPlayer]="demoPlayer"
-                    [paused]="paused"></ws-demo-footer>
-</ng-container>
+<ws-demo *ngIf="playDemo$ | async; else finished"></ws-demo>
 <ng-template #finished>
-    <div class="container">
+    <div class="container demo-reset">
         <ws-summary></ws-summary>
         <ws-bookmarks></ws-bookmarks>
     </div>

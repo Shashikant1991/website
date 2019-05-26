@@ -3,7 +3,7 @@
     <div class="chrome-tabs">
         <div class="triangle"></div>
         <div class="tabs">
-            <span class="icons-tabs"><img src="/favicon.ico" alt="Icon"></span>
+            <span class="icons-tabs"><img [attr.src]="favIcon" alt="Icon"></span>
             <span class="text-tabs">{{tabName}}</span>
             <span class="close-tabs">x</span>
         </div>
@@ -27,7 +27,7 @@
     </div>
     <div class="search-bar">
         <span class="info"><fa-icon icon="lock"></fa-icon> Secured</span>
-        <input type="text" value="https://reactgular.com/">
+        <input type="text" [value]="url">
         <span class="star"><fa-icon icon="star"></fa-icon></span>
     </div>
     <div class="points-bar">
@@ -39,6 +39,7 @@
     </div>
 </div>
 
-<div class="chrome-content">
+<div class="chrome-content"
+     [style.background-color]="backgroundColor">
     <ng-content></ng-content>
 </div>

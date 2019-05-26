@@ -211,9 +211,9 @@ ws-chromium {
         position: relative;
         flex-grow: 1;
         width: 100%;
-        background-color: $white;
         overflow-x: hidden;
         overflow-y: auto;
         pointer-events: none;
+        transition: background-color 300ms ease-in-out;
     }
 }

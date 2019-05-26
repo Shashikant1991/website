@@ -9,5 +9,14 @@ import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@ang
 })
 export class ChromiumComponent {
     @Input()
+    public backgroundColor: string = '#FFFFFF';
+
+    @Input()
+    public favIcon: string;
+
+    @Input()
     public tabName: string = 'Reactgular';
+
+    @Input()
+    public url: string = 'http://google.com/';
 }

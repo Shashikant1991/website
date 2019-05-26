@@ -44,7 +44,11 @@ files.forEach(name => {
 
             console.log(`SASS compiling ${toCss}`);
 
-            const result = sass.renderSync({file: fromFile, outputStyle: 'expanded', sourceMap: false});
+            const result = sass.renderSync({
+                file: fromFile,
+                outputStyle: 'expanded',
+                sourceMap: false
+            });
             writeTypescript(toCss, result.css.toString('utf8'));
         }
     });

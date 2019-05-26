@@ -1,15 +1,15 @@
-<ng-container *ngIf="buffer$ | async as buffer">
+<ng-container *ngIf="terminalBuffer$ | async as terminalBuffer">
     <ng-container *ngIf="positionTerminal$ | async as pos">
         <ws-window class="window-terminal"
                    data-title="Terminal"
                    [ngStyle]="pos">
-            <ws-terminal *ngIf="!nanoBuffer"
+            <ws-terminal *ngIf="!(nanoBuffer$ | async)"
                          class="terminal-theme"
-                         [buffer]="buffer"></ws-terminal>
-            <ws-nano *ngIf="nanoBuffer"
+                         [buffer]="terminalBuffer"></ws-terminal>
+            <ws-nano *ngIf="nanoBuffer$ | async as childNanoBuffer$"
                      class="terminal-theme"
                      [fileName]="'styles.scss'"
-                     [buffer]="nanoBuffer"></ws-nano>
+                     [buffer]="childNanoBuffer$  | async"></ws-nano>
             <div *ngIf="paused$ | async" class="paused-message">PAUSED</div>
         </ws-window>
     </ng-container>
@@ -17,15 +17,19 @@
         <ws-window class="window-chromium"
                    data-title="Chromium"
                    [ngStyle]="pos">
-            <ws-chromium>
+            <ws-chromium favIcon="/favicon.ico"
+                         url="https://reactgular.com/"
+                         [backgroundColor]="backgroundColor$ | async">
                 <ws-default-angular *ngIf="!(showComponents$ | async)"></ws-default-angular>
                 <ng-container *ngIf="showComponents$ | async">
-                    <ws-clone-component tagName="ws-summary" [playBack]="playSummary$ | async">
-                        <ws-summary></ws-summary>
-                    </ws-clone-component>
-                    <ws-clone-component tagName="ws-bookmarks" [playBack]="playBookmarks$ | async">
-                        <ws-bookmarks></ws-bookmarks>
-                    </ws-clone-component>
+                    <ws-proxy-component tagName="ws-summary"
+                                        [html]="observeSummary.renderHtml$ | async"
+                                        [css]="observeSummary.renderCss$ | async">
+                    </ws-proxy-component>
+                    <ws-proxy-component tagName="ws-bookmarks"
+                                        [html]="observeBookmarks.renderHtml$ | async"
+                                        [css]="observeBookmarks.renderCss$ | async">
+                    </ws-proxy-component>
                 </ng-container>
             </ws-chromium>
             <div *ngIf="paused$ | async" class="paused-message">PAUSED</div>

@@ -1,4 +1,4 @@
-@import "../config";
+@import "../demo";
 
 ws-bookmarks {
     display: block;
@@ -9,26 +9,42 @@ ws-bookmarks {
     margin-left: 5rem;
     margin-right: 5rem;
 
-    h1 {
-        font-size: 32px;
-        color: $titleColor;
-        padding-bottom: 12px;
+    .heading {
+        font-family: $font-family-base;
+        font-size: 28px;
+        color: darken($color, 20);
     }
 
-    img {
-        max-width: 600px;
-        padding: 4px;
-        background-color: white;
+    .bookmark-image {
+        display: block;
+        background: url('/assets/images/bookmarks-sample.jpg') center/cover;
+        width: (800px / 2);
+        height: (605px / 2);
         border: 1px solid $color;
+        margin: map-get($spacers, 3) auto;
     }
 
-    p {
-        max-width: 600px;
-        margin: 2rem auto 5rem;
+    .description {
+        margin: map-get($spacers, 3) auto map-get($spacers, 5) auto;
+        font-family: $font-family-base;
+        color: $color;
     }
 
     .footer {
         margin-top: 2rem;
         margin-bottom: 4rem;
+    }
+
+    .btn {
+        font-family: $font-family-base;
+
+        &.btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        &, * {
+            color: white !important;
+        }
     }
 }

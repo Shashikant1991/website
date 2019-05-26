@@ -22,8 +22,8 @@ package:
             - website.tar.gz
     tags:
         - docker
-  only:
-    - master
+    only:
+        - master
 
 install:
     stage: deploy
@@ -46,5 +46,5 @@ install:
         - package
     tags:
         - reactgular
-  only:
-    - master
+    only:
+        - master
