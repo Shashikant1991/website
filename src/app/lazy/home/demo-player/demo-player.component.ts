@@ -22,6 +22,9 @@ function lerp(start, end, amt) {
     return (1 - amt) * start + amt * end;
 }
 
+/**
+ * Displays the animation for the introduction.
+ */
 @Component({
     selector: 'ws-demo-player',
     templateUrl: './demo-player.component.html',
@@ -33,31 +36,67 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
 
     public buffer$: Observable<BufferEvent>;
 
+    /**
+     * Emits when the playback of the entire intro script is finished.
+     */
     @Output()
     public finished: EventEmitter<void> = new EventEmitter();
 
+    /**
+     * Updated to render the nano editor animation. Also controls the displaying of the nano editor when truthy.
+     */
     public nanoBuffer: BufferEvent;
 
+    /**
+     * Emits when the user has paused the playback.
+     */
     @Output()
     public paused: EventEmitter<void> = new EventEmitter();
 
+    /**
+     * Emits the paused state of true or false for playback.
+     */
     public readonly paused$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
+    /**
+     * Emits the HTML and CSS contents for the bookmarks component.
+     */
     public playBookmarks$: Observable<ComponentPlayback>;
 
+    /**
+     * Emits the HTML and CSS contents for the summary component.
+     */
     public playSummary$: Observable<ComponentPlayback>;
 
-    public positionBrowser$: Observable<any>;
+    /**
+     * Emits the ngStyle properties to position the browser window.
+     */
+    public positionBrowser$: Observable<{ [key: string]: string; }>;
 
-    public positionTerminal$: Observable<any>;
+    /**
+     * Emits the ngStyle properties to position the terminal.
+     */
+    public positionTerminal$: Observable<{ [key: string]: string; }>;
 
+    /**
+     * Emits when the user has resumed playback.
+     */
     @Output()
     public resumed: EventEmitter<void> = new EventEmitter();
 
+    /**
+     * When false the default Angular component is rendered, when true the website components are being rendered.
+     */
     public showComponents$: Observable<boolean>;
 
+    /**
+     * Emits when the component has been destroyed.
+     */
     private readonly _destroyed$: Subject<void> = new Subject();
 
+    /**
+     * Constructor
+     */
     public constructor(@Inject(WINDOW) private _wnd: Window,
                        @Inject(DOCUMENT) private _doc: Document,
                        private _demoScripts: DemoPlayBackService,
@@ -67,16 +106,18 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
 
     }
 
-    public isPaused() {
-        return this.paused$.getValue();
-    }
-
+    /**
+     * Destruction hook
+     */
     public ngOnDestroy(): void {
         this._doc.body.style.perspective = undefined;
         this._destroyed$.next();
         this._destroyed$.complete();
     }
 
+    /**
+     * Initialization hook
+     */
     public ngOnInit(): void {
         this._doc.body.style.perspective = '1500px';
         this._animatePositions();
@@ -98,7 +139,7 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
         );
 
         this._demoScripts.stage().pipe(
-            startWith(null),
+            startWith<string, string>(null),
             pairwise(),
             takeUntil(this._destroyed$)
         ).subscribe(([previous, next]) => {
@@ -130,14 +171,23 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
         this.playBookmarks$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Bookmarks'));
     }
 
+    /**
+     * Pauses playback
+     */
     public pause() {
         this.paused$.next(true);
     }
 
+    /**
+     * Resumes playback
+     */
     public resume() {
         this.paused$.next(false);
     }
 
+    /**
+     * Initializations the observables used to position the windows.
+     */
     private _animatePositions() {
         const width$ = fromEvent(this._wnd, 'resize').pipe(
             map(() => this._wnd.innerWidth),

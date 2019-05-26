@@ -7,6 +7,10 @@ import {environment} from '../../../../environments/environment';
 import {DemoState} from '../../../states/demo/demo.state';
 import {DemoPlayerComponent} from '../demo-player/demo-player.component';
 
+/**
+ * Displays the controls on the bottom of the page for the intro animation.
+ * Shows the "pause" and "skip" buttons.
+ */
 @Component({
     selector: 'ws-demo-footer',
     templateUrl: './demo-footer.component.html',
@@ -17,31 +21,61 @@ import {DemoPlayerComponent} from '../demo-player/demo-player.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DemoFooterComponent implements OnInit, OnDestroy {
+    /**
+     * This is the playback component that will be directly controlled by this component.
+     */
     @Input()
     public demoPlayer: DemoPlayerComponent;
 
+    /**
+     * Emits when playback has finished.
+     */
     public finished$: Observable<boolean>;
 
+    /**
+     * Toggles the displaying of the "paused" footer message.
+     */
     @Input()
     public paused: boolean;
 
+    /**
+     * Selects the boolean value for the do not play again checkbox.
+     */
     @Select(DemoState.doNotPlayAgain)
     public playAgain$: Observable<boolean>;
 
+    /**
+     * Shows the timer for debugging.
+     */
     public showTimer = !environment.production;
 
+    /**
+     * Broadcasts to the state that the user has chosen to stop the animation.
+     */
     @Emitter(DemoState.stopDemo)
     public stopDemo: Emittable<boolean>;
 
+    /**
+     * A timer that emits duration when it is subscribed.
+     */
     public timer$: Observable<number>;
 
+    /**
+     * Emits when the component is destroyed.
+     */
     private readonly _destroyed$: Subject<void> = new Subject();
 
+    /**
+     * Destruction hook
+     */
     public ngOnDestroy(): void {
         this._destroyed$.next();
         this._destroyed$.complete();
     }
 
+    /**
+     * Initialization hook
+     */
     public ngOnInit(): void {
         if (!this.demoPlayer) {
             return;
