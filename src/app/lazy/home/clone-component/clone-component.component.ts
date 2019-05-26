@@ -16,6 +16,17 @@ import {
 import {WINDOW} from '@ng-toolkit/universal';
 import {ComponentPlayback} from '../demo.types';
 import {loadComponentCss} from '../scripts/load-component-bundles';
+import * as diff from 'fast-diff';
+
+const master = 'The chicken is blue, but not really a chicken';
+const slave = 'This bird is blue, but is really a dog';
+
+function slaveOffset(m, offset, s): number {
+    return Math.floor(s.length * (offset / m.length));
+}
+
+// console.log(slaveOffset(master, 15, slave));
+console.log(diff(master, slave));
 
 @Component({
     selector: 'ws-clone-component',
@@ -57,7 +68,6 @@ export class CloneComponentComponent implements AfterContentInit, OnDestroy, OnC
             this._html = this._getCloneHtml();
             this._css = loadComponentCss().get(this.tagName);
             this._css = this._css.replace(new RegExp(this.tagName, 'g'), `${this.tagName}-cloned`);
-
             this._doc.head.appendChild(this._styleEl);
             this._el.nativeElement.appendChild(this._cloneEl);
 

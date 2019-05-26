@@ -1,4 +1,5 @@
 import {cssClass, EventQueue, EventsOperator, pause, pressNewLine, setChars, typeChars} from '@typewriterjs/typewriterjs';
+import {environment} from '../../../../environments/environment';
 
 export namespace Terminal {
     export function prompt(domain: string, path: string): EventsOperator {
@@ -23,11 +24,11 @@ export namespace Terminal {
                 queue = queue.pipe(
                     pressNewLine(),
                     Terminal.prompt('root', path),
-                    pause(500),
+                    pause(environment.fast ? 1 : 500),
                     cssClass(c),
                     typeChars(line),
                     cssClass(),
-                    pause(p)
+                    pause(environment.fast ? 1 : p)
                 );
             });
             return queue;

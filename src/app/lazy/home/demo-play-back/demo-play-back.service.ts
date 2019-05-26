@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BufferEvent, EventQueue, tapEvents} from '@typewriterjs/typewriterjs';
+import {BufferEvent, EventQueue, speed, tapEvents} from '@typewriterjs/typewriterjs';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
+import {environment} from '../../../../environments/environment';
 import {ComponentPlayback} from '../demo.types';
 import {createComponentScript} from '../scripts/create-component.script';
 import {createProjectScript} from '../scripts/create-project.script';
@@ -35,6 +36,7 @@ export class DemoPlayBackService {
         const path = '~/reactgular';
 
         return EventQueue.create().pipe(
+            speed(environment.fast ? 1 : 10),
             tapEvents(() => this._layout$.next('single')),
             tapEvents(() => this._stage$.next('intro')),
             loginScript(),

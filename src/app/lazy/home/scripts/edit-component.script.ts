@@ -11,21 +11,20 @@ export function editComponentScript(options: CreateComponentOptions, mode: 'html
     const finished$: Subject<void> = new Subject();
     const bundle = bundles.get(options.component);
 
-    let edit = EventQueue.create();
     const source = (mode === 'html' ? bundle.html : bundle.scss);
     const typing = source.map((str, indx) => {
         return (queue: EventQueue): EventQueue => {
             const html = mode === 'html' ? (indx + 1) / source.length : 1;
             const style = mode !== 'html' ? (indx + 1) / source.length : 0;
             return queue.pipe(
-                // typeChars(Keyboard.escapeHtml(str) + '\r'),
                 typeChars(str + '\r'),
                 tapEvents(() => options.playBack$.next({name: options.component, html, style}))
             );
         };
     });
-    edit = edit.pipe(...typing);
-    const script = edit.pipe(
+
+    const script = EventQueue.create().pipe(
+        ...typing,
         pause(2000),
         tapEvents(() => finished$.next())
     ).play(options.cancel$, options.pause$);
