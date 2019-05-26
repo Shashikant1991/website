@@ -6,7 +6,7 @@ export function introScript(): EventsOperator {
         return queue.pipe(
             Terminal.multiline([
                 '## Hi, My name is Nick Foscarini.',
-                '## I\'m a Full Stack Developer living near Toronto, Canada.',
+                '## I\'m a Front-End Developer living near Toronto, Canada.',
                 '## I like to code in JavaScript and many other languages.',
                 '## I have over 10+ years of experience.',
                 '## You caught me in the middle of making my website.',

@@ -1,5 +1,4 @@
 @import "config";
-
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
@@ -26,12 +25,11 @@
 //@import "~bootstrap/scss/popover";
 //@import "~bootstrap/scss/carousel";
 @import "~bootstrap/scss/utilities";
-
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
-
 @import 'terminal';
+@import 'demo_reset';
 
 html, body {
     display: block;

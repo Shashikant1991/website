@@ -6,6 +6,7 @@ import {
     ElementRef,
     EventEmitter,
     Inject,
+    Input,
     OnDestroy,
     OnInit,
     Output
@@ -13,10 +14,10 @@ import {
 import {DomSanitizer} from '@angular/platform-browser';
 import {WINDOW} from '@ng-toolkit/universal';
 import {BufferEvent} from '@typewriterjs/typewriterjs';
-import {BehaviorSubject, combineLatest, fromEvent, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, finalize, first, map, mapTo, pairwise, startWith, takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, fromEvent, merge, Observable, Subject} from 'rxjs';
+import {distinctUntilChanged, finalize, map, pairwise, startWith, takeUntil} from 'rxjs/operators';
 import {DemoPlayBackService} from '../demo-play-back/demo-play-back.service';
-import {ComponentPlayback, MIN_DEMO_WIDTH} from '../demo.types';
+import {ComponentBundle, CreateComponentObservables, MIN_DEMO_WIDTH} from '../demo.types';
 
 function lerp(start, end, amt) {
     return (1 - amt) * start + amt * end;
@@ -33,8 +34,16 @@ function lerp(start, end, amt) {
     exportAs: 'demoPlayer'
 })
 export class DemoPlayerComponent implements OnInit, OnDestroy {
+    /**
+     * The background color of the Chrome browser.
+     */
+    public backgroundColor$: Observable<string>;
 
-    public buffer$: Observable<BufferEvent>;
+    /**
+     * A map of component names and their source code bundles.
+     */
+    @Input()
+    public bundles: Map<string, ComponentBundle>;
 
     /**
      * Emits when the playback of the entire intro script is finished.
@@ -43,9 +52,19 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
     public finished: EventEmitter<void> = new EventEmitter();
 
     /**
-     * Updated to render the nano editor animation. Also controls the displaying of the nano editor when truthy.
+     * Emits the buffer for the nano editor window.
      */
-    public nanoBuffer: BufferEvent;
+    public nanoBuffer$: Observable<Observable<BufferEvent>>;
+
+    /**
+     * used to render the bookmarks component
+     */
+    public observeBookmarks: CreateComponentObservables;
+
+    /**
+     * Used to render the summary component.
+     */
+    public observeSummary: CreateComponentObservables;
 
     /**
      * Emits when the user has paused the playback.
@@ -57,16 +76,6 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
      * Emits the paused state of true or false for playback.
      */
     public readonly paused$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-    /**
-     * Emits the HTML and CSS contents for the bookmarks component.
-     */
-    public playBookmarks$: Observable<ComponentPlayback>;
-
-    /**
-     * Emits the HTML and CSS contents for the summary component.
-     */
-    public playSummary$: Observable<ComponentPlayback>;
 
     /**
      * Emits the ngStyle properties to position the browser window.
@@ -90,6 +99,11 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
     public showComponents$: Observable<boolean>;
 
     /**
+     * Emits the buffer for the Linux terminal window.
+     */
+    public terminalBuffer$: Observable<BufferEvent>;
+
+    /**
      * Emits when the component has been destroyed.
      */
     private readonly _destroyed$: Subject<void> = new Subject();
@@ -103,7 +117,6 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
                        private _el: ElementRef<HTMLElement>,
                        private _sanitizer: DomSanitizer,
                        private _change: ChangeDetectorRef) {
-
     }
 
     /**
@@ -119,6 +132,7 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
      * Initialization hook
      */
     public ngOnInit(): void {
+
         this._doc.body.style.perspective = '1500px';
         this._animatePositions();
 
@@ -133,9 +147,13 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.buffer$ = this._demoScripts.play(this._destroyed$, this.paused$.asObservable()).pipe(
-            finalize(() => this.finished.emit()),
-            takeUntil(this._destroyed$)
+        const demoPlayback = this._demoScripts.play(this._destroyed$, this.paused$.asObservable(), this.bundles);
+
+        this.observeSummary = demoPlayback.summary;
+        this.observeBookmarks = demoPlayback.bookmarks;
+
+        this.terminalBuffer$ = demoPlayback.buffer$.pipe(
+            finalize(() => this.finished.emit())
         );
 
         this._demoScripts.stage().pipe(
@@ -149,26 +167,19 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             this._el.nativeElement.classList.add(`stage-${next}`);
         });
 
-        this._demoScripts.nanoScripts().pipe(
-            takeUntil(this._destroyed$)
-        ).subscribe(script => {
-            script.pipe(
-                finalize(() => this.nanoBuffer = undefined),
-                takeUntil(this._destroyed$)
-            ).subscribe(buffer => {
-                this.nanoBuffer = buffer;
-                this._change.markForCheck();
-            });
-        });
+        this.showComponents$ = combineLatest([
+            demoPlayback.summary.showComponent$,
+            demoPlayback.bookmarks.showComponent$
+        ]).pipe(map(([a, b]) => a || b));
 
-        this.showComponents$ = this._demoScripts.playBack().pipe(
-            first(),
-            mapTo(true),
-            startWith(false),
+        this.backgroundColor$ = this.showComponents$.pipe(
+            map(show => show ? '#f9f8f5' : '#FFFFFF')
         );
 
-        this.playSummary$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Summary'));
-        this.playBookmarks$ = this._demoScripts.playBack().pipe(filter(play => play.name === 'Bookmarks'));
+        this.nanoBuffer$ = merge(
+            demoPlayback.summary.nanoBuffer$,
+            demoPlayback.bookmarks.nanoBuffer$
+        );
     }
 
     /**

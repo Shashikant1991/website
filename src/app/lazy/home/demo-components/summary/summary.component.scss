@@ -1,24 +1,60 @@
-@import "../config";
+@import "../demo";
 
 ws-summary {
     display: flex;
     color: $color;
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto map-get($spacers, 5) auto;
 
     .column {
         width: 50%;
     }
 
-    h1 {
-        font-size: 28px;
-        color: $titleColor;
-        padding-bottom: 12px;
-    }
-
-    img {
+    .brand-logo {
+        display: block;
+        background: url('/assets/logos/reactgular-logo.png') no-repeat;
         width: 256px;
         height: 209px;
+        margin: map-get($spacers, 5) auto;
+    }
+
+    .heading {
+        font-family: $font-family-base;
+        font-size: 28px;
+        color: darken($color, 20);
+    }
+
+    .description {
+        font-family: $font-family-base;
+        color: $color;
+    }
+
+    .footer {
+        margin-top: map-get($spacers, 5);
+    }
+
+    .summary-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .btn {
+        font-family: $font-family-base;
+
+        &.btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        &.btn-secondary {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-color: rgba(0, 0, 0, 0.5);
+        }
+
+        &, * {
+            color: white !important;
+        }
     }
 }
