@@ -14,9 +14,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {WINDOW} from '@ng-toolkit/universal';
+import * as diff from 'fast-diff';
 import {ComponentPlayback} from '../demo.types';
 import {loadComponentCss} from '../scripts/load-component-bundles';
-import * as diff from 'fast-diff';
 
 const master = 'The chicken is blue, but not really a chicken';
 const slave = 'This bird is blue, but is really a dog';
