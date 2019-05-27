@@ -21,7 +21,7 @@ export const lines = [
     '                <fa-icon [icon]="faGitHub"></fa-icon>',
     '                GitHub',
     '            </a>',
-    '            <a class="btn btn-primary" href="https://stackoverflow.com/users/1031569/reactgular">',
+    '            <a class="btn btn-primary" href="https://stackoverflow.com/users/1031569/reactgular?tab=profile">',
     '                <fa-icon [icon]="faStackOverflow"></fa-icon>',
     '                Stack Overflow',
     '            </a>',

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Emittable, Emitter} from '@ngxs-labs/emitter';
 import {Select} from '@ngxs/store';
 import {merge, Observable, Subject, timer} from 'rxjs';
@@ -18,9 +18,13 @@ import {DemoPlayerComponent} from '../demo-player/demo-player.component';
     host: {
         '[class.show-dialog]': 'paused'
     },
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    exportAs: 'demoFooter'
 })
 export class DemoFooterComponent implements OnInit, OnDestroy {
+    @ViewChild('checkInput', {read: ElementRef})
+    public checkInput: ElementRef<HTMLInputElement>;
+
     /**
      * This is the playback component that will be directly controlled by this component.
      */
@@ -64,6 +68,13 @@ export class DemoFooterComponent implements OnInit, OnDestroy {
      * Emits when the component is destroyed.
      */
     private readonly _destroyed$: Subject<void> = new Subject();
+
+    /**
+     * Closes the demo player.
+     */
+    public close() {
+        this.stopDemo.emit(this.checkInput.nativeElement.checked);
+    }
 
     /**
      * Destruction hook

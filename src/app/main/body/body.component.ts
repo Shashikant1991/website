@@ -1,5 +1,6 @@
-import {isPlatformBrowser} from '@angular/common';
-import {ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
+import {DOCUMENT, isPlatformBrowser} from '@angular/common';
+import {ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 import {WINDOW} from '@ng-toolkit/universal';
 import {Emittable, Emitter} from '@ngxs-labs/emitter';
 import {fromEvent, Subject} from 'rxjs';
@@ -13,12 +14,16 @@ import {AppState} from '../../states/app/app.state';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BodyComponent implements OnInit, OnDestroy {
+    @ViewChild(RouterOutlet)
+    public outlet: RouterOutlet;
+
     @Emitter(AppState.setScroll)
     public scroll: Emittable<number>;
 
     private readonly _destroyed$: Subject<void> = new Subject();
 
     public constructor(@Inject(WINDOW) private _wnd: Window,
+                       @Inject(DOCUMENT) private _doc: Document,
                        @Inject(PLATFORM_ID) private _platform_id: Object) {
     }
 
@@ -27,10 +32,10 @@ export class BodyComponent implements OnInit, OnDestroy {
         this._destroyed$.complete();
     }
 
-    /**
-     * @deprecated Was used to scroll the top bar on the original site design.
-     */
     public ngOnInit(): void {
+        /**
+         * @deprecated Was used to scroll the top bar on the original site design.
+         */
         if (isPlatformBrowser(this._platform_id)) {
             fromEvent(this._wnd, 'scroll').pipe(
                 startWith(this._wnd.scrollY),
@@ -39,5 +44,14 @@ export class BodyComponent implements OnInit, OnDestroy {
                 takeUntil(this._destroyed$)
             ).subscribe(scroll => this.scroll.emit(scroll));
         }
+
+        this.outlet.activateEvents.pipe(
+            takeUntil(this._destroyed$)
+        ).subscribe(() => {
+            const el = this._doc.querySelector('#bootstrap');
+            if (el) {
+                el.parentNode.removeChild(el);
+            }
+        });
     }
 }

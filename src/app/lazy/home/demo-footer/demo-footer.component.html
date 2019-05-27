@@ -16,5 +16,4 @@
            [checked]="playAgain$ | async">
     <label for="playAgain">Don't play again</label>
 </div>
-<button class="btn btn-sm btn-primary ml-3"
-        (click)="stopDemo.emit(checkInput.checked)">{{(finished$ | async) ? 'Close' : 'Skip'}}</button>
+<button class="btn btn-sm btn-primary ml-3" (click)="close()">{{(finished$ | async) ? 'Close' : 'Skip'}}</button>

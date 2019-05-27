@@ -1,8 +1,9 @@
 import {DOCUMENT} from '@angular/common';
 import {ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {WINDOW} from '@ng-toolkit/universal';
-import {Subject} from 'rxjs';
+import {merge, Subject} from 'rxjs';
 import {map, takeUntil} from 'rxjs/operators';
+import {ChromiumComponent} from '../../../shared/terminals/chromium/chromium.component';
 
 /**
  * This is a proxy component that renders HTML inside the view, and also binds a CSS styles for that view.
@@ -44,6 +45,7 @@ export class ProxyComponentComponent implements OnInit, OnDestroy {
      */
     public constructor(@Inject(WINDOW) private _wnd: Window,
                        @Inject(DOCUMENT) private _doc: Document,
+                       private _chromium: ChromiumComponent,
                        private _el: ElementRef<HTMLElement>) {
     }
 
@@ -97,6 +99,10 @@ export class ProxyComponentComponent implements OnInit, OnDestroy {
             }),
             takeUntil(this._destroyed$)
         ).subscribe(value => styleEl.innerHTML = value);
+
+        merge(this._html$, this._css$).pipe(
+            takeUntil(this._destroyed$)
+        ).subscribe(() => this._chromium.scrollBottom());
     }
 
     /**

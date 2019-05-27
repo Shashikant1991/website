@@ -2,8 +2,11 @@
     <ws-demo-player #demoPlayer
                     [bundles]="bundles"
                     (paused)="showPausedFooter = true"
-                    (resumed)="showPausedFooter = false"></ws-demo-player>
-    <ws-demo-footer [demoPlayer]="demoPlayer"
+                    (resumed)="showPausedFooter = false"
+                    (finished)="finished = true"
+                    (click)="demoFooter.close()"></ws-demo-player>
+    <ws-demo-footer #demoFooter
+                    [demoPlayer]="demoPlayer"
                     [paused]="showPausedFooter"></ws-demo-footer>
 </ng-container>
 <ws-component-html *ngIf="missingBundle('summary') | async"

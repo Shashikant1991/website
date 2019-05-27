@@ -29,6 +29,11 @@ export class DemoComponent implements OnInit, AfterViewInit, OnDestroy {
     public demoPlayers: QueryList<DemoPlayerComponent>;
 
     /**
+     * True when the demo has finished.
+     */
+    public finished: boolean = false;
+
+    /**
      * Paused state for the footer.
      */
     public showPausedFooter: boolean = true;

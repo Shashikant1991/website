@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
+    Inject,
     Input,
     OnChanges,
     OnDestroy,
@@ -9,6 +10,7 @@ import {
     SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
+import {WINDOW} from '@ng-toolkit/universal';
 import {BufferEvent} from '@typewriterjs/typewriterjs';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -24,17 +26,18 @@ export class TerminalComponent implements OnChanges, OnInit, OnDestroy {
     @Input()
     public buffer: BufferEvent;
 
-    private _changes$: Subject<void> = new Subject();
-
     private readonly _destroyed$: Subject<void> = new Subject();
 
-    public constructor(private _el: ElementRef<HTMLElement>) {
+    private _scroll$: Subject<void> = new Subject();
+
+    public constructor(@Inject(WINDOW) private _wnd: Window,
+                       private _el: ElementRef<HTMLElement>) {
 
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if ('buffer' in changes) {
-            window.setTimeout(() => this._changes$.next());
+            this._wnd.setTimeout(() => this._scroll$.next());
         }
     }
 
@@ -44,7 +47,7 @@ export class TerminalComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this._changes$.pipe(
+        this._scroll$.pipe(
             takeUntil(this._destroyed$)
         ).subscribe(() => this._el.nativeElement.scrollTo(0, this._el.nativeElement.scrollHeight));
     }
