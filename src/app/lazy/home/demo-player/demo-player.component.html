@@ -17,7 +17,7 @@
         <ws-window class="window-chromium"
                    data-title="Chromium"
                    [ngStyle]="pos">
-            <ws-chromium favIcon="/favicon.ico"
+            <ws-chromium [favIcon]="favIcon$ | async"
                          url="https://reactgular.com/"
                          [backgroundColor]="backgroundColor$ | async">
                 <ws-default-angular *ngIf="!(showComponents$ | async)"></ws-default-angular>

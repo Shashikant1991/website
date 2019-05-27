@@ -42,8 +42,17 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.app.json",
                         "assets": [
-                            "src/favicon.ico",
-                            "src/assets"
+                            "src/.htaccess",
+                            "src/assets",
+                            {
+                                "glob": "**/*",
+                                "input": "./node_modules/@reactgular/media/images/logo",
+                                "output": "/assets/logo"
+                            },{
+                                "glob": "favicon.png",
+                                "input": "./node_modules/@reactgular/media/images/",
+                                "output": "/"
+                            }
                         ],
                         "styles": [
                             "src/app/app.scss"

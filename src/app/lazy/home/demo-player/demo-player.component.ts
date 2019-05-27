@@ -46,6 +46,11 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
     public bundles: Map<string, ComponentBundle>;
 
     /**
+     * The favicon for the browser.
+     */
+    public favIcon$: Observable<string>;
+
+    /**
      * Emits when the playback of the entire intro script is finished.
      */
     @Output()
@@ -174,6 +179,10 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
 
         this.backgroundColor$ = this.showComponents$.pipe(
             map(show => show ? '#f9f8f5' : '#FFFFFF')
+        );
+
+        this.favIcon$ = this.showComponents$.pipe(
+            map(show => show ? '/favicon.png' : '/assets/angular.ico')
         );
 
         this.nanoBuffer$ = merge(

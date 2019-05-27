@@ -12,9 +12,9 @@ ws-summary {
 
     .brand-logo {
         display: block;
-        background: url('/assets/logos/reactgular-logo.png') no-repeat;
+        background: url("/assets/logo/reactgular-logo-256.png") no-repeat;
         width: 256px;
-        height: 209px;
+        height: 256px;
         margin: map-get($spacers, 5) auto;
     }
 
