@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 import {faGithubSquare, faLinkedin, faStackOverflow} from '@fortawesome/free-brands-svg-icons';
 import {Emittable, Emitter} from '@ngxs-labs/emitter';
+import {AnalyticsService} from '../../../../shared/analytics/analytics.service';
 import {DemoState} from '../../../../states/demo/demo.state';
 
 @Component({
@@ -19,4 +20,22 @@ export class SummaryComponent {
 
     @Emitter(DemoState.restartDemo)
     public restart: Emittable<void>;
+
+    constructor(private _analytics: AnalyticsService) {
+    }
+
+    /**
+     * Replays the greeting
+     */
+    public replay() {
+        this.track('intro-replay');
+        this.restart.emit();
+    }
+
+    /**
+     * Tracks an event via analytics
+     */
+    public track(category: string) {
+        this._analytics.click(category);
+    }
 }

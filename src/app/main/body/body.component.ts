@@ -5,6 +5,8 @@ import {WINDOW} from '@ng-toolkit/universal';
 import {Emittable, Emitter} from '@ngxs-labs/emitter';
 import {fromEvent, Subject} from 'rxjs';
 import {filter, map, startWith, takeUntil} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {AnalyticsService} from '../../shared/analytics/analytics.service';
 import {AppState} from '../../states/app/app.state';
 
 @Component({
@@ -24,7 +26,11 @@ export class BodyComponent implements OnInit, OnDestroy {
 
     public constructor(@Inject(WINDOW) private _wnd: Window,
                        @Inject(DOCUMENT) private _doc: Document,
-                       @Inject(PLATFORM_ID) private _platform_id: Object) {
+                       @Inject(PLATFORM_ID) private _platform_id: Object,
+                       private _analytics: AnalyticsService) {
+        if (environment.production) {
+            this._analytics.start();
+        }
     }
 
     public ngOnDestroy(): void {

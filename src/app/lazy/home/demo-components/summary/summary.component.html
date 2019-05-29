@@ -11,19 +11,21 @@
     </div>
     <div class="summary-row footer">
         <div class="col-12 d-flex">
-            <a class="btn btn-primary mr-3" href="https://www.linkedin.com/in/nick-foscarini/">
+            <a class="btn btn-primary mr-3" href="https://www.linkedin.com/in/nick-foscarini/"
+               (click)="track('LinkedIn')">
                 <fa-icon [icon]="faLinkedIn"></fa-icon>
                 LinkedIn
             </a>
-            <a class="btn btn-primary mr-3" href="https://github.com/reactgular">
+            <a class="btn btn-primary mr-3" href="https://github.com/reactgular" (click)="track('GitHub')">
                 <fa-icon [icon]="faGitHub"></fa-icon>
                 GitHub
             </a>
-            <a class="btn btn-primary" href="https://stackoverflow.com/users/1031569/reactgular?tab=profile">
+            <a class="btn btn-primary" href="https://stackoverflow.com/users/1031569/reactgular?tab=profile"
+               (click)="track('StackOverflow')">
                 <fa-icon [icon]="faStackOverflow"></fa-icon>
                 Stack Overflow
             </a>
-            <button class="btn btn-secondary ml-auto" (click)="restart.emit()">
+            <button class="btn btn-secondary ml-auto" (click)="replay()">
                 Replay Greeting
             </button>
         </div>

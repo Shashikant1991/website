@@ -6,6 +6,7 @@ import {NgxsEmitPluginModule} from '@ngxs-labs/emitter';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import {NgxsModule} from '@ngxs/store';
+import {Angulartics2Module} from 'angulartics2';
 import {environment} from '../../environments/environment';
 import {AppState} from '../states/app/app.state';
 import {DemoState} from '../states/demo/demo.state';
@@ -31,7 +32,8 @@ const STATES = [
             key: ['demo.doNotPlayAgain']
         }),
         NgtUniversalModule,
-        MainRoutingModule
+        MainRoutingModule,
+        Angulartics2Module.forRoot()
     ],
     declarations: [
         BodyComponent

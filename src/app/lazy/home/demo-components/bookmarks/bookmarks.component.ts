@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
+import {AnalyticsService} from '../../../../shared/analytics/analytics.service';
 
 @Component({
     selector: 'ws-bookmarks',
@@ -9,4 +10,10 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@an
 })
 export class BookmarksComponent {
 
+    constructor(private _analytics: AnalyticsService) {
+    }
+
+    public track(category: string) {
+        this._analytics.click(category);
+    }
 }

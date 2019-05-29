@@ -3,7 +3,8 @@
                     [bundles]="bundles"
                     (paused)="showPausedFooter = true"
                     (resumed)="showPausedFooter = false"
-                    (finished)="finished = true"
+                    (started)="demoStart()"
+                    (finished)="demoFinish()"
                     (click)="finished && demoFooter.close()"></ws-demo-player>
     <ws-demo-footer #demoFooter
                     [demoPlayer]="demoPlayer"

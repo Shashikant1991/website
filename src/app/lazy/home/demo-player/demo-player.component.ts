@@ -104,6 +104,12 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
     public showComponents$: Observable<boolean>;
 
     /**
+     * Emits when the playback starts.
+     */
+    @Output()
+    public started: EventEmitter<void> = new EventEmitter();
+
+    /**
      * Emits the buffer for the Linux terminal window.
      */
     public terminalBuffer$: Observable<BufferEvent>;
@@ -189,6 +195,8 @@ export class DemoPlayerComponent implements OnInit, OnDestroy {
             demoPlayback.summary.nanoBuffer$,
             demoPlayback.bookmarks.nanoBuffer$
         );
+
+        this.started.emit();
     }
 
     /**

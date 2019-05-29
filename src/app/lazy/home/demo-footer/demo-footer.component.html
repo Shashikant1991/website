@@ -1,11 +1,12 @@
 <ng-container *ngIf="!(finished$ | async)">
     <ng-container *ngIf="!paused">
-        <button class="btn btn-sm btn-primary" (click)="demoPlayer?.pause()">Pause</button>
+        <button class="btn btn-sm btn-primary" (click)="pause()">Pause</button>
         <div *ngIf="showTimer" class="timer text-monospace ml-3">{{timer$ | async | number:'3.1-1'}}</div>
     </ng-container>
     <ng-container *ngIf="paused">
         <span class="message">Playback has been paused. Would you like to continue?</span>
-        <button class="btn btn-sm btn-primary mr-3" (click)="demoPlayer?.resume()">Resume</button>
+        <button class="btn btn-sm btn-primary mr-3" (click)="resume()">Resume
+        </button>
     </ng-container>
 </ng-container>
 <div class="play-again ml-auto mr-3">
@@ -16,4 +17,5 @@
            [checked]="playAgain$ | async">
     <label for="playAgain">Don't play again</label>
 </div>
-<button class="btn btn-sm btn-primary ml-3" (click)="close()">{{(finished$ | async) ? 'Close' : 'Skip'}}</button>
+<button class="btn btn-sm btn-primary ml-3"
+        (click)="close()">{{(finished$ | async) ? 'Close' : 'Skip'}}</button>

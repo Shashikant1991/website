@@ -2,6 +2,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {filter, map, scan, startWith, takeUntil} from 'rxjs/operators';
+import {AnalyticsService} from '../../../shared/analytics/analytics.service';
 import {DemoPlayerComponent} from '../demo-player/demo-player.component';
 import {ComponentBundle, MIN_DEMO_WIDTH} from '../demo.types';
 import {createBundle} from '../scripts/load-component-sources';
@@ -46,7 +47,23 @@ export class DemoComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * Constructor
      */
-    public constructor(private _breakpointObserver: BreakpointObserver) {
+    public constructor(private _breakpointObserver: BreakpointObserver,
+                       private _analytics: AnalyticsService) {
+    }
+
+    /**
+     * Called when the playback has finished.
+     */
+    public demoFinish() {
+        this.finished = true;
+        this._analytics.action('intro', 'intro-finish');
+    }
+
+    /**
+     * Called when the playback starts.
+     */
+    public demoStart() {
+        this._analytics.action('intro', 'intro-start');
     }
 
     /**

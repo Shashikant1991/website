@@ -4,6 +4,7 @@ import {Select} from '@ngxs/store';
 import {merge, Observable, Subject, timer} from 'rxjs';
 import {first, map, mapTo, startWith, takeUntil} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
+import {AnalyticsService} from '../../../shared/analytics/analytics.service';
 import {DemoState} from '../../../states/demo/demo.state';
 import {DemoPlayerComponent} from '../demo-player/demo-player.component';
 
@@ -70,9 +71,16 @@ export class DemoFooterComponent implements OnInit, OnDestroy {
     private readonly _destroyed$: Subject<void> = new Subject();
 
     /**
+     * Constructor
+     */
+    constructor(private _analytics: AnalyticsService) {
+    }
+
+    /**
      * Closes the demo player.
      */
     public close() {
+        this.track('intro-close');
         this.stopDemo.emit(this.checkInput.nativeElement.checked);
     }
 
@@ -102,5 +110,32 @@ export class DemoFooterComponent implements OnInit, OnDestroy {
             mapTo(true),
             startWith(false)
         );
+    }
+
+    /**
+     * Pauses playback
+     */
+    public pause() {
+        this.track('intro-pause');
+        if (this.demoPlayer) {
+            this.demoPlayer.pause();
+        }
+    }
+
+    /**
+     * Resumes playback.
+     */
+    public resume() {
+        this.track('intro-resume');
+        if (this.demoPlayer) {
+            this.demoPlayer.resume();
+        }
+    }
+
+    /**
+     * Tracks event via analytics.
+     */
+    public track(category: string) {
+        this._analytics.click(category);
     }
 }
